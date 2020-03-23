@@ -19,19 +19,51 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author lounis
- */
 @WebServlet(name = "UserManager", urlPatterns = {"/UserManager"})
 public class UserManager extends HttpServlet {
-
-    private static Hashtable<Integer, User> usersTable = new Hashtable<Integer, User>();
+    private static  Hashtable<Integer, User> usersTable= new Hashtable<Integer, User>();
 
     public static Hashtable<Integer, User> getUsersTable() {
         return usersTable;
     }
+    /**
+     * Processes requests for both HTTP  <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        String firstName=request.getParameter("User first name");
+        String lastName=request.getParameter("User familly name");
+        String mail=request.getParameter("User email");
+        String gender=request.getParameter("gender");
+        String password=request.getParameter("User password");  
+        String role = request.getParameter("admin");
+        
+        usersTable.put(usersTable.size(), new User(lastName,firstName,mail,usersTable.size(),gender,password ));
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Un nouveau utilisateur </title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1> Un nouveau utilisateur est ajouté : </h1>");
+            out.println(usersTable.get(usersTable.size()-1).toString());
+            out.println("</body>");
+            out.println("</html>");
+            
+        }
+    }
 
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -49,19 +81,19 @@ public class UserManager extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Liste des utilisateurs </title>");
+            out.println("<title>Un nouveau utilisateur </title>");            
             out.println("</head>");
             out.println("<body>");
             out.println("<h1> Liste des utilisateurs : </h1>");
-            out.println("<ol>");
-
+            out.println("<ol>");        
+        
             Set<Integer> keys = usersTable.keySet();
-
+ 
             //Obtaining iterator over set entries
             Iterator<Integer> itr = keys.iterator();
-            while (itr.hasNext()) {
+            while(itr.hasNext()){
                 out.println("<li>");
-                out.println(usersTable.get(itr.next()).toString());
+                out.println(usersTable.get(itr.next()).toString()); 
                 out.println("</li>");
             }
             out.println("</ol>");
@@ -81,16 +113,7 @@ public class UserManager extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        String firstName = request.getParameter("User first name");
-        String lastName = request.getParameter("User familly name");
-        String mail = request.getParameter("User email");
-        String gender = request.getParameter("gender");
-        String password = request.getParameter("User password");
-        
-        RequestDispatcher rd = request.getRequestDispatcher("Validation");
-        rd.forward(request, response);
-
+        processRequest(request, response);
     }
 
     /**
