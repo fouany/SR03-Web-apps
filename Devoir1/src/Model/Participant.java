@@ -1,6 +1,8 @@
 package Model;
 
-public class Participant {
+import java.io.*;
+
+public class Participant implements Serializable{
 	
 	private String pseudo;
 
@@ -8,7 +10,7 @@ public class Participant {
 		super();
 		this.pseudo = pseudo;
 	}
-
+	
 	public String getPseudo() {
 		return pseudo;
 	}
