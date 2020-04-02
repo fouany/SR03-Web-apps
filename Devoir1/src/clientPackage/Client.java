@@ -8,7 +8,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import Model.Participant;
+import Model.Utilisateur;
 
 public class Client {
 	
@@ -17,6 +17,7 @@ public class Client {
 		boolean pseudoAccepte = true;
 		
 	    try {
+	    	
 	    	Socket client = new Socket("localhost", 7000);
 	        System.out.println("Connecté ....");
 	        Scanner sc = new Scanner(System.in);
@@ -30,7 +31,7 @@ public class Client {
 		 	        
 	    			pseudo = sc.nextLine();
 		 	        	 	        
-		 	        Participant potentiel = new Participant(pseudo);
+		 	        Utilisateur potentiel = new Utilisateur(pseudo, null);
 		 	      
 		 	        ObjectOutputStream oos = new ObjectOutputStream(client.getOutputStream());
 		 	        oos.writeObject(potentiel);
@@ -38,8 +39,7 @@ public class Client {
 		 	        
         			ObjectInputStream ois = new ObjectInputStream(client.getInputStream());
 		 	        pseudoAccepte = ois.readBoolean();
-		 	        
-		 	        
+		 	     
 	    		} while(!pseudoAccepte);
 	 	        
 	    	} while(true);

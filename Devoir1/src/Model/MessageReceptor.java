@@ -20,6 +20,7 @@ public class MessageReceptor extends Thread{
 			InputStream ins = client.getInputStream();
 			while(true) {
 				//lecture du contenu du InputStream
+				System.out.println("blablou");
 			}
 		} catch (IOException ex) {
 	        Logger.getLogger(MessageReceptor.class.getName()).log(Level.SEVERE, null, ex);

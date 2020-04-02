@@ -6,30 +6,29 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import Model.Participant;
+
+import Model.MessageReceptor;
+import Model.Utilisateur;
 
 public class Server {
 	
-	private static ArrayList<Socket> clientsSockets = new ArrayList<Socket>();
-	private static ArrayList<Participant> participants = new ArrayList<Participant>();
+	private static ArrayList<Utilisateur> clients = new ArrayList<Utilisateur>();
 
 	public static void main(String[] args) {
        
-		Participant potentiel;
+		Utilisateur potentiel;
 		boolean pseudoAccepte;
-		
-		participants.add(new Participant("antoine"));
 		
         try {
         	 ServerSocket server = new ServerSocket(7000);
-             System.out.println("Serveur à l'écoute ......");
+             System.out.println("Serveur à l'écoute ...");
              Socket client = server.accept();
-             System.out.println(" Nouveau client ...");
+             System.out.println("Client en attente ...");
              
         	do {
         		do {
         			ObjectInputStream ois = new ObjectInputStream(client.getInputStream());
-                    potentiel = (Participant) ois.readObject();
+                    potentiel = (Utilisateur) ois.readObject();
                     ObjectOutputStream oos = new ObjectOutputStream(client.getOutputStream());
  
                     if (!checkPseudo(potentiel)) {
@@ -42,26 +41,38 @@ public class Server {
                     oos.flush();
                  
         		} while (!pseudoAccepte);
-                System.out.println("Pseudo du nouveau participant : " + potentiel.getPseudo()); 
-
-        		 	                  
+                
+        		potentiel.setSock(client);
+        		potentiel.setMessageReceptor(new MessageReceptor(client));        		
+                clients.add(potentiel);
+                
+        		System.out.println("\n" + potentiel.getPseudo() + " a rejoint la conversation \n"); 
+        		System.out.println(potentiel); 
+                afficherUtilisateurs();
+	                  
         	} while(true);
            
 
         } catch (IOException ex) {
-            System.err.println("Client deconnecté ...");
+            System.err.println("Client déconnecté ...");
         } catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-
 	}
 	
-	public static boolean checkPseudo(Participant potentiel) {
-		 for (int i = 0; i < participants.size(); i++) {
-			 if (participants.get(i).equals(potentiel))
+	public static boolean checkPseudo(Utilisateur potentiel) {
+		 for (int i = 0; i < clients.size(); i++) {
+			 if (clients.get(i).equals(potentiel))
 				 return false;	 
 		 }
 		 return true;
 	}	
+	
+	public static void afficherUtilisateurs() {
+		System.out.println("\nUtilisateurs en ligne : ");
+		for (int i = 0; i < clients.size(); i++) {
+			 System.out.println(clients.get(i));
+		 }
+	}
 		
 }
