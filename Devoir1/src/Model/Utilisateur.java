@@ -8,11 +8,14 @@ public class Utilisateur implements Serializable{
 	private String pseudo;
 	private Socket sock;
 	private MessageReceptor messageReceptor;
+	private MessageSender messageSender;
+	
 	
 	public Utilisateur(String pseudo, Socket sock) {
 		this.pseudo = pseudo;
 		this.sock = sock;
 		this.messageReceptor = messageReceptor;
+		this.messageSender = messageSender;
 	}
 
 	public String getPseudo() {
@@ -39,6 +42,14 @@ public class Utilisateur implements Serializable{
 		this.messageReceptor = msgReceptor;
 	}
 
+	public MessageSender getMessageSender() {
+		return messageSender;
+	}
+
+	public void setMessageSender(MessageSender messageSender) {
+		this.messageSender = messageSender;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -59,12 +70,9 @@ public class Utilisateur implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Participant [pseudo=" + pseudo + ", sock=" + sock + "]";
+		return "Utilisateur [pseudo=" + pseudo + ", sock=" + sock + ", messageReceptor=" + messageReceptor
+				+ ", messageSender=" + messageSender + "]";
 	}
-	
-	
-
-	
 
 
 }

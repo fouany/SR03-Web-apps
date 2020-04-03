@@ -17,7 +17,6 @@ public class Client {
 		boolean pseudoAccepte = true;
 		
 	    try {
-	    	
 	    	Socket client = new Socket("localhost", 7000);
 	        System.out.println("Connecté ....");
 	        Scanner sc = new Scanner(System.in);
@@ -41,7 +40,7 @@ public class Client {
 		 	        pseudoAccepte = ois.readBoolean();
 		 	     
 	    		} while(!pseudoAccepte);
-	 	        
+
 	    	} while(true);
                       
 	    } catch (IOException ex) {

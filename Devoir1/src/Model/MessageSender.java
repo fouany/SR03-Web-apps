@@ -1,23 +1,23 @@
 package Model;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class MessageReceptor extends Thread{
+public class MessageSender extends Thread{
 	
 	private Socket client;
 	
-	public MessageReceptor(Socket client) {
+	public MessageSender(Socket client) {
 		this.client = client;
 	}
 
 	@Override
 	public void run() {
 		try {
-			InputStream ins = client.getInputStream();
+			OutputStream outs = client.getOutputStream();
 			while(true) {
 				//lecture du contenu du InputStream
 				System.out.println("blablou");
@@ -28,3 +28,4 @@ public class MessageReceptor extends Thread{
 	}
 
 }
+
