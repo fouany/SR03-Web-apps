@@ -24,6 +24,9 @@ public class Server {
 	    try {
 	      int port = Integer.parseInt(args[0]);
 	      server = new MainServer(port);
+	      
+	      
+		  System.out.println("Server ready");
 	      server.mainLoop();
 	    }
 	    catch(IOException e) {

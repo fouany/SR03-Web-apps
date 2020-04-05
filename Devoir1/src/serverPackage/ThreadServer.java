@@ -2,10 +2,9 @@ package serverPackage;
 
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import clientPackage.Client;
 
 public class ThreadServer extends Thread {
 
@@ -14,6 +13,9 @@ public class ThreadServer extends Thread {
 	ServerSocket conn = null;
 	Socket sock = null;
 	int port = -1;
+	
+	ArrayList<String> messagesThread = new ArrayList<String>();
+
 
 	public ThreadServer(Socket sock) throws IOException {
 		this.sock = sock;
@@ -38,10 +40,15 @@ public class ThreadServer extends Thread {
 	public void requestLoop() {
 
 		String message = "";
+		
 		try {
 			while (true) {
 				message = (String) ois.readObject();
 				System.out.println("Message du client : " + message);
+				messagesThread.add(message);
+				System.out.println("messages thread " + messagesThread);
+				oos.writeObject("message to mainserver");
+				
 				oos.flush();
 			}
 		} catch (IOException e) {
@@ -50,4 +57,12 @@ public class ThreadServer extends Thread {
 			System.out.println("error in request loop :" + e.getMessage());
 		}
 	}
+
+	public ArrayList<String> getMessagesThread() {
+		return messagesThread;
+	}
+
+	
+	
+	
 }
