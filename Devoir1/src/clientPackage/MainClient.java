@@ -2,6 +2,8 @@ package clientPackage;
 
 import java.io.*;
 import java.net.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 class MainClient {
 
@@ -21,20 +23,20 @@ class MainClient {
 
 	public void mainLoop() {
 		
-		String message = "";
+		String message = "Exemple";
 		String pseudo = "";
 
 		try {
-			//while ((message != null) && (!message.isEmpty()) && (message != "exit")) {
+			while ((message != null) && (!message.isEmpty()) && (message != "exit")) {
 				System.out.println("Entrez votre pseudo : ");
 				message = consoleIn.readLine();
 				oos.writeObject(message);
 				oos.flush();
-			//}
+			}
 			oos.close();
 			ois.close();
 		} catch (IOException e) {
-			System.out.println(e.getMessage());
+			Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, e);
 		}
 	}
 }
