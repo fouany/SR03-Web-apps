@@ -12,6 +12,30 @@ import Model.Utilisateur;
 
 public class Server {
 
+	public static void main(String []args) {
+
+	    MainServer server = null;
+	    
+	    if (args.length != 1) {
+	      System.out.println("Usage: Server port");
+	      System.exit(1);
+	    }
+	    
+	    try {
+	      int port = Integer.parseInt(args[0]);
+	      server = new MainServer(port);
+	      server.mainLoop();
+	    }
+	    catch(IOException e) {
+	      System.out.println("Problème création serveur : "+ e.getMessage());
+	      System.exit(1);
+	    }
+	  }
+	
+	
+}
+	
+	/*
 	private static ArrayList<Utilisateur> clients = new ArrayList<Utilisateur>();
 
 	public static void main(String[] args) {
@@ -83,6 +107,4 @@ public class Server {
 		for (int i = 0; i < clients.size(); i++) {
 			System.out.println(clients.get(i));
 		}
-	}
-
-}
+	}*/
