@@ -17,6 +17,7 @@ public class MainServer {
 	public MainServer(int port) throws IOException {
 		this.port = port;
 		conn = new ServerSocket(port);
+		
 	}
 
 	public void mainLoop() {
@@ -24,12 +25,8 @@ public class MainServer {
 		while (true) {
 			try {
 				sock = conn.accept();
-				t = new ThreadServer(sock);
+				t = new ThreadServer(sock, this);
 				t.start();
-				
-				oos = new ObjectOutputStream(sock.getOutputStream());
-				oos.writeObject("this is a test");
-				oos.flush();
 				
 			} catch (IOException e) {
 				System.out.println(e.getMessage());

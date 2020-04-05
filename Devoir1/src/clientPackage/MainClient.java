@@ -32,16 +32,11 @@ class MainClient {
 				message = consoleIn.readLine();
 				oos.writeObject(message);
 				oos.flush();
-				
-				System.out.println(ois.readObject());
 			}
 			oos.close();
 			ois.close();
 		} catch (IOException e) {
 			Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, e);
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 }

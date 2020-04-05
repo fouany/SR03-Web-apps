@@ -14,11 +14,14 @@ public class ThreadServer extends Thread {
 	Socket sock = null;
 	int port = -1;
 	
+	MainServer mainserver;
+	
 	ArrayList<String> messagesThread = new ArrayList<String>();
 
 
-	public ThreadServer(Socket sock) throws IOException {
+	public ThreadServer(Socket sock, MainServer mainserver) throws IOException {
 		this.sock = sock;
+		this.mainserver = mainserver;
 	}
 
 	public void run() {
@@ -41,13 +44,14 @@ public class ThreadServer extends Thread {
 
 		String message = "";
 		
+		
 		try {
 			while (true) {
 				message = (String) ois.readObject();
 				System.out.println("Message du client : " + message);
-				messagesThread.add(message);
-				System.out.println("messages thread " + messagesThread);
-				oos.writeObject("message to mainserver");
+				mainserver.messages.add(message);
+				System.out.println("messages globaux " + mainserver.messages);
+
 				
 				oos.flush();
 			}
