@@ -33,12 +33,15 @@ public class ThreadServer extends Thread {
 
 	public void requestLoop() {
 		
+		String messageClient = "";
+		
 		try {
-			while (true) {
-				System.out.println("ThreadServer : blabla");
+			//while (true) {
+				messageClient = ois.readObject().toString();
+				System.out.println("ThreadServer : " + messageClient);
 				oos.flush();
-			}
-		} catch (IOException e) {
+			//}
+		} catch (IOException | ClassNotFoundException e) {
 			System.out.println("error in request loop :" + e.getMessage());
 		}
 	}

@@ -22,12 +22,15 @@ class MainClient {
 	public void mainLoop() {
 		
 		String message = "";
+		String pseudo = "";
 
 		try {
-			while ((message != null) && (!message.isEmpty()) && (message != "exit")) {
-
+			//while ((message != null) && (!message.isEmpty()) && (message != "exit")) {
+				System.out.println("Entrez votre pseudo : ");
+				message = consoleIn.readLine();
+				oos.writeObject(message);
 				oos.flush();
-			}
+			//}
 			oos.close();
 			ois.close();
 		} catch (IOException e) {
