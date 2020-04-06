@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import Model.Utilisateur;
+
 public class ThreadServer extends Thread {
 
 	ObjectOutputStream oos = null;
@@ -15,9 +17,6 @@ public class ThreadServer extends Thread {
 	int port = -1;
 	
 	MainServer mainserver;
-	
-	ArrayList<String> messagesThread = new ArrayList<String>();
-
 
 	public ThreadServer(Socket sock, MainServer mainserver) throws IOException {
 		this.sock = sock;
@@ -42,32 +41,64 @@ public class ThreadServer extends Thread {
 
 	public void requestLoop() {
 
-		String message = "";
+		String message = "Exemple";
+		Utilisateur potentiel;
+		boolean pseudoAccepte;
 		
 		try {
-			while (true) {
-				message = (String) ois.readObject();
-				
-				if (message.equals("exit")) {
-					System.out.print("Un client s'est déconnecté\n");
-					break;
+			
+			do {
+				potentiel = (Utilisateur) ois.readObject();
+
+				if (!checkPseudo(potentiel)) {
+					pseudoAccepte = false;
+					oos.writeBoolean(false);
+				} else {
+					pseudoAccepte = true;
+					oos.writeBoolean(true);
 				}
 				
-				System.out.println("Message du client : " + message);
-				mainserver.messages.add(message);
-				System.out.println("messages globaux " + mainserver.messages);
-
+				if (potentiel.getPseudo().equals("exit")) {
+					oos.writeBoolean(false);
+					break;
+				}
 				oos.flush();
+				
+
+			} while (!pseudoAccepte);
+			
+			if (!potentiel.getPseudo().equals("exit")) {
+				mainserver.utilisateurs.add(potentiel);
+				System.out.println("Utilisateurs en ligne\n" + mainserver.utilisateurs);
+				
+				while ((message != null) && (!message.isEmpty()) && (!message.equals("exit"))) {
+					
+					message = (String) ois.readObject();
+					
+					if (message.equals("exit")) {
+						System.out.print("Un client s'est déconnecté\n");
+						break;
+					}
+					
+					System.out.println("\nMessage client : " + message);
+
+					//oos.flush();
+				}
 			}
+			
 		} catch (IOException e) {
 			Logger.getLogger(ThreadServer.class.getName()).log(Level.SEVERE, null, e);
 		} catch (ClassNotFoundException e) {
 			System.out.println("error in request loop :" + e.getMessage());
 		}
 	}
-
-	public ArrayList<String> getMessagesThread() {
-		return messagesThread;
+	
+	public boolean checkPseudo(Utilisateur potentiel) {
+		for (int i = 0; i < mainserver.utilisateurs.size(); i++) {
+			if (mainserver.utilisateurs.get(i).equals(potentiel))
+				return false;
+		}
+		return true;
 	}
 	
 }

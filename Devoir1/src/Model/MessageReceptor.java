@@ -2,11 +2,12 @@ package Model;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class MessageReceptor extends Thread{
+public class MessageReceptor extends Thread {
 	
 	private Socket client;
 	

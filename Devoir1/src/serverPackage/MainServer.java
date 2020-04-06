@@ -4,6 +4,8 @@ import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 
+import Model.Utilisateur;
+
 public class MainServer {
 
 	ObjectOutputStream oos = null;
@@ -12,7 +14,7 @@ public class MainServer {
 	Socket sock = null;
 	int port = -1;
 	
-	ArrayList<String> messages = new ArrayList<String>();
+	ArrayList<Utilisateur> utilisateurs = new ArrayList<Utilisateur>();
 
 	public MainServer(int port) throws IOException {
 		this.port = port;
