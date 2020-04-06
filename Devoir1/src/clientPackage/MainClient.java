@@ -27,11 +27,17 @@ class MainClient {
 		String pseudo = "";
 
 		try {
-			while ((message != null) && (!message.isEmpty()) && (message != "exit")) {
+			while ((message != null) && (!message.isEmpty()) && (!message.equals("exit"))) {
 				System.out.println("Entrez votre pseudo : ");
 				message = consoleIn.readLine();
 				oos.writeObject(message);
 				oos.flush();
+				
+				if (message.equals("exit")) {
+					System.out.println("Déconnexion du serveur réussie");
+					break;
+				}
+								
 			}
 			oos.close();
 			ois.close();

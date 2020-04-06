@@ -44,15 +44,19 @@ public class ThreadServer extends Thread {
 
 		String message = "";
 		
-		
 		try {
 			while (true) {
 				message = (String) ois.readObject();
+				
+				if (message.equals("exit")) {
+					System.out.print("Un client s'est déconnecté\n");
+					break;
+				}
+				
 				System.out.println("Message du client : " + message);
 				mainserver.messages.add(message);
 				System.out.println("messages globaux " + mainserver.messages);
 
-				
 				oos.flush();
 			}
 		} catch (IOException e) {
@@ -65,8 +69,5 @@ public class ThreadServer extends Thread {
 	public ArrayList<String> getMessagesThread() {
 		return messagesThread;
 	}
-
-	
-	
 	
 }
