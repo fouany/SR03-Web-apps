@@ -10,7 +10,7 @@ public class Utilisateur implements Serializable{
 	private MessageReceptor messageReceptor;
 	
 	
-	public Utilisateur(String pseudo, Socket sock) {
+	public Utilisateur(String pseudo, Socket sock, MessageReceptor messageReceptor) {
 		this.pseudo = pseudo;
 		this.sock = sock;
 		this.messageReceptor = messageReceptor;

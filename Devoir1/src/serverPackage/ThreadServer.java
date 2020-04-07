@@ -2,7 +2,6 @@ package serverPackage;
 
 import java.io.*;
 import java.net.*;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,7 +14,7 @@ public class ThreadServer extends Thread {
 	ServerSocket conn = null;
 	Socket sock = null;
 	int port = -1;
-	
+
 	MainServer mainserver;
 
 	public ThreadServer(Socket sock, MainServer mainserver) throws IOException {
@@ -44,9 +43,9 @@ public class ThreadServer extends Thread {
 		String message = "Exemple";
 		Utilisateur potentiel;
 		boolean pseudoAccepte;
-		
+
 		try {
-			
+
 			do {
 				potentiel = (Utilisateur) ois.readObject();
 
@@ -57,42 +56,43 @@ public class ThreadServer extends Thread {
 					pseudoAccepte = true;
 					oos.writeBoolean(true);
 				}
-				
+
 				if (potentiel.getPseudo().equals("exit")) {
 					oos.writeBoolean(false);
 					break;
 				}
 				oos.flush();
-				
 
 			} while (!pseudoAccepte);
-			
+
 			if (!potentiel.getPseudo().equals("exit")) {
+				
 				mainserver.utilisateurs.add(potentiel);
 				System.out.println("Utilisateurs en ligne\n" + mainserver.utilisateurs);
-				
+
 				while ((message != null) && (!message.isEmpty()) && (!message.equals("exit"))) {
-					
+
 					message = (String) ois.readObject();
-					
+
 					if (message.equals("exit")) {
 						System.out.print("Un client s'est déconnecté\n");
 						break;
 					}
-					
-					System.out.println("\nMessage client : " + message);
 
+					System.out.println("\nMessage client : " + message);
+					
+					//oos.writeObject("Message à tous les clients");
 					//oos.flush();
 				}
 			}
-			
+
 		} catch (IOException e) {
 			Logger.getLogger(ThreadServer.class.getName()).log(Level.SEVERE, null, e);
 		} catch (ClassNotFoundException e) {
 			System.out.println("error in request loop :" + e.getMessage());
 		}
 	}
-	
+
 	public boolean checkPseudo(Utilisateur potentiel) {
 		for (int i = 0; i < mainserver.utilisateurs.size(); i++) {
 			if (mainserver.utilisateurs.get(i).equals(potentiel))
@@ -100,5 +100,5 @@ public class ThreadServer extends Thread {
 		}
 		return true;
 	}
-	
+
 }

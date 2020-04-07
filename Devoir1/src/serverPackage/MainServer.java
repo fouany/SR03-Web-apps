@@ -8,8 +8,6 @@ import Model.Utilisateur;
 
 public class MainServer {
 
-	ObjectOutputStream oos = null;
-	ObjectInputStream ois = null;
 	ServerSocket conn = null;
 	Socket sock = null;
 	int port = -1;
@@ -19,7 +17,6 @@ public class MainServer {
 	public MainServer(int port) throws IOException {
 		this.port = port;
 		conn = new ServerSocket(port);
-		
 	}
 
 	public void mainLoop() {
