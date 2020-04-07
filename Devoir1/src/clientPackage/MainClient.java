@@ -13,11 +13,8 @@ class MainClient {
 	}
 
 	public void mainLoop() {
-		System.out.println("Client mainloop");
 		MessageReceptor messageReceptor;
 		messageReceptor = new MessageReceptor(sock);
 		messageReceptor.start();
-
 	}
-
 }

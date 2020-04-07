@@ -3,7 +3,6 @@ package serverPackage;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
-
 import Model.Utilisateur;
 
 public class MainServer {

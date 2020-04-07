@@ -26,7 +26,6 @@ public class MessageReceptor extends Thread {
 
 	@Override
 	public void run() {
-		System.out.println("Message receptor run()");
 		consoleIn = new BufferedReader(new InputStreamReader(System.in));
 
 		try {
@@ -45,9 +44,6 @@ public class MessageReceptor extends Thread {
 	
 	public void requestLoopClient() {
 		
-		System.out.println("requestloopClient()");
-
-
 		String pseudo = "";
 		boolean pseudoAccepte = true;
 
@@ -77,14 +73,18 @@ public class MessageReceptor extends Thread {
 
 			if (!pseudo.equals("exit")) {
 				String message = "Exemple";
-				System.out.println("Vous pouvez désormais envoyer vos messages au serveur !");
+				System.out.println("Vous pouvez désormais envoyer vos messages au serveur !\n");
 
 				while ((message != null) && (!message.isEmpty()) && (!message.equals("exit"))) {
-
+					
+				
 					System.out.println("Entrez un message : ");
 					message = consoleIn.readLine();
 					oos.writeObject(message);
 					oos.flush();
+					
+					String messageInterClient = (String) ois.readObject();
+					System.out.println("\n-- Nouveau message --\n " + messageInterClient); 
 
 					if (message.equals("exit")) {
 						System.out.println("Vous avez quitté le serveur");
@@ -94,7 +94,7 @@ public class MessageReceptor extends Thread {
 			}
 			oos.close();
 			ois.close();
-		} catch (IOException e) {
+		} catch (IOException | ClassNotFoundException e) {
 			Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, e);
 		}
 	}

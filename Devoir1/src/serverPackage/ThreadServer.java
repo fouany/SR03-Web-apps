@@ -73,16 +73,14 @@ public class ThreadServer extends Thread {
 				while ((message != null) && (!message.isEmpty()) && (!message.equals("exit"))) {
 
 					message = (String) ois.readObject();
-
+					oos.writeObject("Message à tous les clients : " + message);
+					oos.flush();
+					
 					if (message.equals("exit")) {
 						System.out.print("Un client s'est déconnecté\n");
 						break;
 					}
-
-					System.out.println("\nMessage client : " + message);
-					
-					//oos.writeObject("Message à tous les clients");
-					//oos.flush();
+					System.out.println("\nMessage client : " + message);					
 				}
 			}
 
