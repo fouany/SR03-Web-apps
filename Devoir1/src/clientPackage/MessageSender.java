@@ -15,6 +15,7 @@ public class MessageSender extends Thread {
 	private Socket sock;
 	private ObjectOutputStream oos = null;
 	private BufferedReader consoleIn = null;
+	
 
 	public MessageSender(Socket sock) {
 		this.sock = sock;
@@ -22,27 +23,36 @@ public class MessageSender extends Thread {
 
 	@Override
 	public void run() {
-		
+
 		try {
 			oos = new ObjectOutputStream(sock.getOutputStream());
+			oos.flush();
+
+			requestLoop();
+
+			oos.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
-		
+	}
+
+	public void requestLoop() {
+
 		String message = "Exemple";
 		consoleIn = new BufferedReader(new InputStreamReader(System.in));
-
-		while (true) {
-			try {
+		try {
+			while (true) {
 				System.out.println("Entrez un message: ");
 				message = consoleIn.readLine();
 				oos.writeObject(message);
 				oos.flush();
-
-			} catch (IOException e) {
-				e.printStackTrace();
+				if (message.equals("exit")) {
+					System.out.print("Un client s'est déconnecté\n");
+				}
 			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-
 	}
+
 }

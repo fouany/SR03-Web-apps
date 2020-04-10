@@ -38,8 +38,38 @@ public class ThreadServer extends Thread {
 			System.out.println(e.getMessage());
 		}
 	}
-
+	
+	
 	public void requestLoop() {
+
+	String message = "Exemple";
+	Utilisateur potentiel;
+	boolean pseudoAccepte;
+
+	try {
+			while ((message != null) && (!message.isEmpty()) && (!message.equals("exit"))) {
+
+				message = (String) ois.readObject();
+				
+				if (message.equals("exit")) {
+					System.out.print("Un client s'est déconnecté\n");
+					break;
+				}
+				envoyerATous(message);
+				System.out.println("\nMessage client : " + message);					
+			}
+
+	} catch (IOException e) {
+		Logger.getLogger(ThreadServer.class.getName()).log(Level.SEVERE, null, e);
+	} catch (ClassNotFoundException e) {
+		System.out.println("error in request loop :" + e.getMessage());
+	}
+}
+	
+	
+	
+
+	/*public void requestLoop() {
 
 		String message = "Exemple";
 		Utilisateur potentiel;
@@ -47,7 +77,7 @@ public class ThreadServer extends Thread {
 
 		try {
 
-			/*do {
+			do {
 				potentiel = (Utilisateur) ois.readObject();
 
 				if (!checkPseudo(potentiel)) {
@@ -64,9 +94,9 @@ public class ThreadServer extends Thread {
 				}
 				oos.flush();
 
-			} while (!pseudoAccepte);*/
+			} while (!pseudoAccepte);
 
-			//if (!potentiel.getPseudo().equals("exit")) {
+			if (!potentiel.getPseudo().equals("exit")) {
 				
 
 				//potentiel.setSock(new Socket("localhost", potentiel.getPort()));
@@ -90,14 +120,14 @@ public class ThreadServer extends Thread {
 					}
 					System.out.println("\nMessage client : " + message);					
 				}
-			//}
+			}
 
 		} catch (IOException e) {
 			Logger.getLogger(ThreadServer.class.getName()).log(Level.SEVERE, null, e);
 		} catch (ClassNotFoundException e) {
 			System.out.println("error in request loop :" + e.getMessage());
 		}
-	}
+	}*/
 
 	public boolean checkPseudo(Utilisateur potentiel) {
 		for (int i = 0; i < mainserver.utilisateurs.size(); i++) {

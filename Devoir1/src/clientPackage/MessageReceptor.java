@@ -20,25 +20,30 @@ public class MessageReceptor extends Thread {
 	@Override
 	public void run() {
 
-		String messageRecu = "Exemple";
-
 		try {
 			ois = new ObjectInputStream(sock.getInputStream());
+
+			requestLoop();
+
+			ois.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
+	}
 
-		while (true) {
-			try {
+	public void requestLoop() {
 
+		String messageRecu = "Exemple";
+		try {
+
+			while (true) {
 				messageRecu = (String) ois.readObject();
 				System.out.println(messageRecu);
-
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
 			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }
