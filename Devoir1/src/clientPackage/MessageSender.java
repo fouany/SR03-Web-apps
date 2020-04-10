@@ -50,13 +50,12 @@ public class MessageSender extends Thread {
 	
 	public void connexion(){
 		String pseudo = "Exemple";
-		Utilisateur potentiel;
 		
 		try {
 			System.out.println("Entrez votre pseudo: ");
 			pseudo = consoleIn.readLine();
-			potentiel = new Utilisateur(pseudo);
-			oos.writeObject(potentiel);
+			mainclient.utilisateur = new Utilisateur(pseudo);
+			oos.writeObject(mainclient.utilisateur);
 			oos.flush();
 			
 		} catch (IOException e) {

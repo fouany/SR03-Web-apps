@@ -3,6 +3,7 @@ package clientPackage;
 import java.io.*;
 import java.net.*;
 import Model.ThreadClient;
+import Model.Utilisateur;
 
 class MainClient {
 
@@ -10,6 +11,7 @@ class MainClient {
 	private MessageReceptor msgReceptor;
 	private MessageSender msgSender;
 	protected boolean pseudoAccepte;
+	protected Utilisateur utilisateur;
 	
 	public MainClient(String serverAddr, int port) throws IOException {
 		sock = new Socket(serverAddr, port);

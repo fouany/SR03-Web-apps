@@ -46,7 +46,8 @@ public class MessageReceptor extends Thread {
 
 			while (true) {
 				messageRecu = (String) ois.readObject();
-				System.out.println(messageRecu);
+				if (!messageRecu.startsWith(mainclient.utilisateur.getPseudo()))
+					System.out.println(messageRecu);
 			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();}
