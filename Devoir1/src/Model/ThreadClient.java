@@ -15,11 +15,7 @@ import clientPackage.Client;
 
 public class ThreadClient extends Thread implements Serializable{
 	
-	private Socket sock;
-	ObjectOutputStream oos = null;
-	ObjectInputStream ois = null;
-	BufferedReader consoleIn = null;
-	
+	/*private Socket sock;
 	
 	
 	public ThreadClient(Socket sock) {
@@ -28,7 +24,6 @@ public class ThreadClient extends Thread implements Serializable{
 
 	@Override
 	public void run() {
-		consoleIn = new BufferedReader(new InputStreamReader(System.in));
 
 		try {
 			oos = new ObjectOutputStream(sock.getOutputStream());
@@ -100,5 +95,5 @@ public class ThreadClient extends Thread implements Serializable{
 			Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, e);
 		}
 	}
-
+*/
 }

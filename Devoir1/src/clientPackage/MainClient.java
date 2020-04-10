@@ -6,15 +6,18 @@ import Model.ThreadClient;
 
 class MainClient {
 
-	Socket sock = null;
+	private Socket sock = null;
+	private MessageReceptor msgReceptor;
+	private MessageSender msgSender;
 
 	public MainClient(String serverAddr, int port) throws IOException {
 		sock = new Socket(serverAddr, port);
 	}
 
 	public void mainLoop() {
-		ThreadClient threadClient;
-		threadClient = new ThreadClient(sock);
-		threadClient.start();
+		msgReceptor = new MessageReceptor(sock);
+		msgReceptor.start();
+		msgSender = new MessageSender(sock);
+		msgSender.start();
 	}
 }

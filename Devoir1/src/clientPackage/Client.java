@@ -18,6 +18,7 @@ public class Client {
 			int port = Integer.parseInt(args[1]);
 			client = new MainClient(serverAddr, port);
 			client.mainLoop();
+			
 		} catch (IOException e) {
 			System.out.println("Problème de connexion au serveur : " + e.getMessage());
 			System.exit(1);

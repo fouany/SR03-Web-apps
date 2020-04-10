@@ -5,8 +5,8 @@ import java.net.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import Model.MessageReceptor;
 import Model.Utilisateur;
+import clientPackage.MessageReceptor;
 
 public class ThreadServer extends Thread {
 
@@ -47,7 +47,7 @@ public class ThreadServer extends Thread {
 
 		try {
 
-			do {
+			/*do {
 				potentiel = (Utilisateur) ois.readObject();
 
 				if (!checkPseudo(potentiel)) {
@@ -64,9 +64,9 @@ public class ThreadServer extends Thread {
 				}
 				oos.flush();
 
-			} while (!pseudoAccepte);
+			} while (!pseudoAccepte);*/
 
-			if (!potentiel.getPseudo().equals("exit")) {
+			//if (!potentiel.getPseudo().equals("exit")) {
 				
 
 				//potentiel.setSock(new Socket("localhost", potentiel.getPort()));
@@ -74,8 +74,8 @@ public class ThreadServer extends Thread {
 				//potentiel.getMesageReceptor().start();
 				
 				
-				mainserver.utilisateurs.add(potentiel);
-				System.out.println("Utilisateurs en ligne\n" + mainserver.utilisateurs);
+				//mainserver.utilisateurs.add(potentiel);
+				//System.out.println("Utilisateurs en ligne\n" + mainserver.utilisateurs);
 
 				while ((message != null) && (!message.isEmpty()) && (!message.equals("exit"))) {
 
@@ -90,7 +90,7 @@ public class ThreadServer extends Thread {
 					}
 					System.out.println("\nMessage client : " + message);					
 				}
-			}
+			//}
 
 		} catch (IOException e) {
 			Logger.getLogger(ThreadServer.class.getName()).log(Level.SEVERE, null, e);

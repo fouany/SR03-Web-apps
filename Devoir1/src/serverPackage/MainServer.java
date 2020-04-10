@@ -28,7 +28,6 @@ public class MainServer {
 				t.start();
 				threadsServer.add(t);
 
-				
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 			}
