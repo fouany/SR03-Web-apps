@@ -6,12 +6,14 @@ import java.net.Socket;
 public class Utilisateur implements Serializable{
 	
 	private String pseudo;
+	private int port;
 	private Socket sock;
-	private MessageReceptor messageReceptor;
+	private ThreadClient messageReceptor;
 	
 	
-	public Utilisateur(String pseudo, Socket sock, MessageReceptor messageReceptor) {
+	public Utilisateur(String pseudo, ThreadClient messageReceptor) {
 		this.pseudo = pseudo;
+		this.port = port;
 		this.sock = sock;
 		this.messageReceptor = messageReceptor;
 	}
@@ -23,6 +25,16 @@ public class Utilisateur implements Serializable{
 	public void setPseudo(String pseudo) {
 		this.pseudo = pseudo;
 	}
+	
+	
+
+	public int getPort() {
+		return port;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
+	}
 
 	public Socket getSock() {
 		return sock;
@@ -32,11 +44,11 @@ public class Utilisateur implements Serializable{
 		this.sock = sock;
 	}
 
-	public MessageReceptor getMesageReceptor() {
+	public ThreadClient getMesageReceptor() {
 		return messageReceptor;
 	}
 
-	public void setMessageReceptor(MessageReceptor msgReceptor) {
+	public void setMessageReceptor(ThreadClient msgReceptor) {
 		this.messageReceptor = msgReceptor;
 	}
 
@@ -60,7 +72,8 @@ public class Utilisateur implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Utilisateur [pseudo=" + pseudo + ", sock=" + sock + ", messageReceptor=" + messageReceptor + "]";
+		return "Utilisateur [pseudo=" + pseudo + ", sock=" + sock + ", messageReceptor="
+				+ messageReceptor + "]";
 	}
 
 }

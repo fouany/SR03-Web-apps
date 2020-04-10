@@ -2,7 +2,7 @@ package clientPackage;
 
 import java.io.*;
 import java.net.*;
-import Model.MessageReceptor;
+import Model.ThreadClient;
 
 class MainClient {
 
@@ -13,8 +13,8 @@ class MainClient {
 	}
 
 	public void mainLoop() {
-		MessageReceptor messageReceptor;
-		messageReceptor = new MessageReceptor(sock);
-		messageReceptor.start();
+		ThreadClient threadClient;
+		threadClient = new ThreadClient(sock);
+		threadClient.start();
 	}
 }

@@ -12,6 +12,7 @@ public class MainServer {
 	int port = -1;
 	
 	ArrayList<Utilisateur> utilisateurs = new ArrayList<Utilisateur>();
+	ArrayList<ThreadServer> threadsServer = new ArrayList<ThreadServer>();
 
 	public MainServer(int port) throws IOException {
 		this.port = port;
@@ -25,10 +26,13 @@ public class MainServer {
 				sock = conn.accept();
 				t = new ThreadServer(sock, this);
 				t.start();
+				threadsServer.add(t);
+
 				
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 			}
 		}
 	}
+
 }
