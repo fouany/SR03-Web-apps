@@ -10,11 +10,11 @@ import clientPackage.MessageReceptor;
 
 public class ThreadServer extends Thread {
 
-	ObjectOutputStream oos = null;
-	ObjectInputStream ois = null;
-	ServerSocket conn = null;
-	Socket sock = null;
-	int port = -1;
+	private ObjectOutputStream oos = null;
+	private ObjectInputStream ois = null;
+	private ServerSocket conn = null;
+	private Socket sock = null;
+	private int port = -1;
 
 	MainServer mainserver;
 
@@ -42,21 +42,28 @@ public class ThreadServer extends Thread {
 	
 	public void requestLoop() {
 
-	String message = "Exemple";
-	Utilisateur potentiel;
-	boolean pseudoAccepte;
-
-	try {
-			while ((message != null) && (!message.isEmpty()) && (!message.equals("exit"))) {
-
-				message = (String) ois.readObject();
+		try {
+	
+		    String message = "Exemple";
+		    Utilisateur potentiel;
+		    
+		    potentiel = (Utilisateur) ois.readObject();
+			
+			if (isPseudoOk(potentiel)) {
 				
-				if (message.equals("exit")) {
-					System.out.print("Un client s'est déconnecté\n");
-					break;
+				envoyerATous("------" + potentiel.getPseudo() + " s'est connecté ------");
+				
+				while ((message != null) && (!message.isEmpty()) && (!message.equals("exit"))) {
+					
+					message = (String) ois.readObject();
+
+					if (message.equals("exit")) {
+						System.out.print("Un client s'est déconnecté\n");
+						break;
+					}
+					envoyerATous(potentiel, message);
+					System.out.println("\nMessage client : " + message);					
 				}
-				envoyerATous(message);
-				System.out.println("\nMessage client : " + message);					
 			}
 
 	} catch (IOException e) {
@@ -65,6 +72,40 @@ public class ThreadServer extends Thread {
 		System.out.println("error in request loop :" + e.getMessage());
 	}
 }
+	
+	public boolean isPseudoOk(Utilisateur potentiel) {
+		for (int i = 0; i < mainserver.utilisateurs.size(); i++) {
+			if (mainserver.utilisateurs.get(i).equals(potentiel))
+				return false;
+		}
+		return true;
+	}
+	
+	
+	
+	public void envoyerATous(String message) {
+		//System.out.println("Liste des threadsServer: " + mainserver.threadsServer);
+		for (int i = 0; i < mainserver.threadsServer.size(); i++) {
+			try {
+				mainserver.threadsServer.get(i).oos.writeObject(message);
+				oos.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void envoyerATous(Utilisateur potentiel, String message) {
+		//System.out.println("Liste des threadsServer: " + mainserver.threadsServer);
+		for (int i = 0; i < mainserver.threadsServer.size(); i++) {
+			try {
+				mainserver.threadsServer.get(i).oos.writeObject(potentiel.getPseudo() + " dit: " + message);
+				oos.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	
 	
 	
@@ -129,25 +170,14 @@ public class ThreadServer extends Thread {
 		}
 	}*/
 
-	public boolean checkPseudo(Utilisateur potentiel) {
+	/*public boolean checkPseudo(Utilisateur potentiel) {
 		for (int i = 0; i < mainserver.utilisateurs.size(); i++) {
 			if (mainserver.utilisateurs.get(i).equals(potentiel))
 				return false;
 		}
 		return true;
-	}
+	}*/
 	
-	public void envoyerATous(String message) {
-		System.out.println("Liste des threadsServer: " + mainserver.threadsServer);
-		
-		for (int i = 0; i < mainserver.threadsServer.size(); i++) {
-			try {
-				mainserver.threadsServer.get(i).oos.writeObject("Message à tous les clients : " + message);
-				oos.flush();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+	
 
 }

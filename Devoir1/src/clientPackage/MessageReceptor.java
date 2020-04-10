@@ -13,8 +13,11 @@ public class MessageReceptor extends Thread {
 	private Socket sock;
 	private ObjectInputStream ois = null;
 
-	public MessageReceptor(Socket sock) {
+	MainClient mainclient;
+
+	public MessageReceptor(Socket sock, MainClient mainclient) {
 		this.sock = sock;
+		this.mainclient = mainclient;
 	}
 
 	@Override
@@ -35,14 +38,19 @@ public class MessageReceptor extends Thread {
 
 		String messageRecu = "Exemple";
 		try {
+			
+			/*do {
+				mainclient.pseudoAccepte = ois.readBoolean();
+			    System.out.println(mainclient.pseudoAccepte);
+			} while (!mainclient.pseudoAccepte);*/
 
 			while (true) {
 				messageRecu = (String) ois.readObject();
 				System.out.println(messageRecu);
 			}
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+			e.printStackTrace();}
+		 catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

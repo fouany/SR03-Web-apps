@@ -10,15 +10,19 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import Model.Utilisateur;
+
 public class MessageSender extends Thread {
 
 	private Socket sock;
 	private ObjectOutputStream oos = null;
 	private BufferedReader consoleIn = null;
 	
+	MainClient mainclient;
 
-	public MessageSender(Socket sock) {
+	public MessageSender(Socket sock, MainClient mainclient) {
 		this.sock = sock;
+		this.mainclient = mainclient;
 	}
 
 	@Override
@@ -38,21 +42,44 @@ public class MessageSender extends Thread {
 
 	public void requestLoop() {
 
-		String message = "Exemple";
 		consoleIn = new BufferedReader(new InputStreamReader(System.in));
+		
+		connexion();
+		saisirMessages();
+	}
+	
+	public void connexion(){
+		String pseudo = "Exemple";
+		Utilisateur potentiel;
+		
+		try {
+			System.out.println("Entrez votre pseudo: ");
+			pseudo = consoleIn.readLine();
+			potentiel = new Utilisateur(pseudo);
+			oos.writeObject(potentiel);
+			oos.flush();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void saisirMessages(){
+		String message = "Exemple";
 		try {
 			while (true) {
 				System.out.println("Entrez un message: ");
 				message = consoleIn.readLine();
 				oos.writeObject(message);
 				oos.flush();
-				if (message.equals("exit")) {
+				/*if (message.equals("exit")) {
 					System.out.print("Un client s'est déconnecté\n");
-				}
+				}*/
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+
 
 }

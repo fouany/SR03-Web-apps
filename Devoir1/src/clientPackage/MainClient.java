@@ -9,15 +9,17 @@ class MainClient {
 	private Socket sock = null;
 	private MessageReceptor msgReceptor;
 	private MessageSender msgSender;
-
+	protected boolean pseudoAccepte;
+	
 	public MainClient(String serverAddr, int port) throws IOException {
 		sock = new Socket(serverAddr, port);
 	}
 
 	public void mainLoop() {
-		msgReceptor = new MessageReceptor(sock);
+		pseudoAccepte = true;
+		msgReceptor = new MessageReceptor(sock, this);
 		msgReceptor.start();
-		msgSender = new MessageSender(sock);
+		msgSender = new MessageSender(sock, this);
 		msgSender.start();
 	}
 }
