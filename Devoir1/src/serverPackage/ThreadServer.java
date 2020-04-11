@@ -7,8 +7,8 @@ import java.util.logging.Logger;
 import Model.Utilisateur;
 
 /**
- * ThreadServer est le processus qui s'éxecute en continu Il reçoit les données
- * des clients avec ois Il envoie les données aux clients avec oos
+ * ThreadServer est le processus qui s'execute en continu Il recoit les donnees
+ * des clients avec ois Il envoie les donnes aux clients avec oos
  */
 public class ThreadServer extends Thread {
 
@@ -18,7 +18,7 @@ public class ThreadServer extends Thread {
 	private Socket sock = null;
 	private int port = -1;
 
-	protected MainServer mainserver; // permettra d'accéder à la liste des Threads
+	protected MainServer mainserver; // permettra d'acceder  la liste des Threads
 
 	public ThreadServer(Socket sock, MainServer mainserver) throws IOException {
 		this.sock = sock;
@@ -49,19 +49,19 @@ public class ThreadServer extends Thread {
 
 			potentiel = (Utilisateur) ois.readObject();
 
-			if (isPseudoOk(potentiel)) { // on vérifie le pseudo
+			if (isPseudoOk(potentiel)) { // on verifie le pseudo
 
-				envoyerATous("------" + potentiel.getPseudo() + " s'est connecté ------");
+				envoyerATous("------" + potentiel.getPseudo() + " s'est connecte ------");
 
 				// Boucle "infinie" pour recevoir et diffuser des messages aux clients
 				while ((message != null) && (!message.isEmpty()) && (!message.equals("exit"))) {
 
 					message = (String) ois.readObject();
 
-					// On gère la déconnexion
+					// On gere la dconnexion
 					if (message.equals("exit")) {
-						envoyerATous("------" + potentiel.getPseudo() + " s'est déconnecté ------");
-						break; // On sort de la boucle si l'utilisateur se déconnecte pour arrêter le thread
+						envoyerATous("------" + potentiel.getPseudo() + " s'est deconnect ------");
+						break; // On sort de la boucle si l'utilisateur se deconnecte pour arreter le thread
 					}
 					envoyerATous(potentiel, message);
 					System.out.println("\nMessage client : " + message);
@@ -76,10 +76,10 @@ public class ThreadServer extends Thread {
 	}
 
 	/**
-	 * Vérifie si le pseudo n'est pas déjà utilisé
+	 * Verifie si le pseudo n'est pas deja utilise
 	 * 
 	 * @param potentiel
-	 * @return true si le pseudo n'est pas utilisé, faux sinon
+	 * @return true si le pseudo n'est pas utilise, faux sinon
 	 */
 	public boolean isPseudoOk(Utilisateur potentiel) {
 		for (int i = 0; i < mainserver.utilisateurs.size(); i++) {
@@ -90,11 +90,11 @@ public class ThreadServer extends Thread {
 	}
 
 	/**
-	 * On diffuse le paramètre message à tous les clients
+	 * On diffuse le parametre message  tous les clients
 	 * @param message
 	 */
 	public void envoyerATous(String message) {
-		for (int i = 0; i < mainserver.threadsServer.size(); i++) { // on accède à la liste globale des utilisateurs
+		for (int i = 0; i < mainserver.threadsServer.size(); i++) { // on accede a la liste globale des utilisateurs
 			try {
 				mainserver.threadsServer.get(i).oos.writeObject(message);
 				oos.flush();
@@ -105,13 +105,13 @@ public class ThreadServer extends Thread {
 	}
 
 	/**
-	 * Méthode surchargée pour ajouter des informations sur l'utilisateur 
-	 * On diffuse le paramètre message à tous les clients
-	 * @param potentiel est l'utilisateur, on le passe en paramètre pour accéder à ses données
+	 * Methode surcharge pour ajouter des informations sur l'utilisateur 
+	 * On diffuse le parametre message a tous les clients
+	 * @param potentiel est l'utilisateur, on le passe en paramtre pour accder  ses donnes
 	 * @param message
 	 */
 	public void envoyerATous(Utilisateur potentiel, String message) {
-		for (int i = 0; i < mainserver.threadsServer.size(); i++) { // on accède à la liste globale des utilisateurs
+		for (int i = 0; i < mainserver.threadsServer.size(); i++) { // on accede  la liste globale des utilisateurs
 			try {
 				mainserver.threadsServer.get(i).oos.writeObject(potentiel.getPseudo() + " dit: " + message);
 				oos.flush();
