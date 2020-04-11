@@ -46,12 +46,12 @@ public class MessageSender extends Thread {
 	public void requestLoop() {
 
 		consoleIn = new BufferedReader(new InputStreamReader(System.in));
-		connexion(); // On atomise en différentes fonctions pour plus de clarté
+		connexion(); // On atomise en diffrentes fonctions pour plus de clarte
 		saisirMessages();
 	}
 	
 	/**
-	 * Méthode envoyant le pseudo au serveur
+	 * Methode envoyant le pseudo au serveur
 	 */
 	public void connexion(){
 		String pseudo = "Exemple";
@@ -59,12 +59,12 @@ public class MessageSender extends Thread {
 		
 		try {
 			/**
-			 * Nous n'avons pas réussi a faire la vérification du pseudo dans une boucle do while
-			 * à cause d'un problème de synchronisation des objets
+			 * Nous n'avons pas reussi a faire la verification du pseudo dans une boucle do while
+			 * a cause d'un probleme de synchronisation des objets
 			 */
 			System.out.println("Entrez votre pseudo: ");
 			pseudo = consoleIn.readLine();
-			mainclient.utilisateur = new Utilisateur(pseudo); // on créé une nouvelle instance d'utilisateur puis on l'envoie
+			mainclient.utilisateur = new Utilisateur(pseudo); // on cree une nouvelle instance d'utilisateur puis on l'envoie
 			oos.writeObject(mainclient.utilisateur);
 			oos.flush();
 			
@@ -74,12 +74,12 @@ public class MessageSender extends Thread {
 	}
 	
 	/**
-	 * Permet au client d'envoyer des messages tant qu'il n'écrit pas exit
+	 * Permet au client d'envoyer des messages tant qu'il n'crit pas exit
 	 */
 	public void saisirMessages(){
 		String message = "Exemple";
 		boolean condition = true;
-		System.out.println("Vous pouvez désormais envoyer des messages aux autres utilisateurs en ligne !");
+		System.out.println("Vous pouvez desormais envoyer des messages aux autres utilisateurs en ligne !");
 
 		try {
 			while (condition) {
@@ -88,7 +88,7 @@ public class MessageSender extends Thread {
 				oos.writeObject(message);
 				oos.flush();
 				if (message.equals("exit")) {
-					System.out.print("Déconnexion");
+					System.out.print("Deconnexion");
 					condition = false;
 				}
 			}
