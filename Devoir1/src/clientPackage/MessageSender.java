@@ -3,14 +3,17 @@ package clientPackage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import Model.Utilisateur;
 
+/**
+ * 
+ * Thread pour le client qui envoie les messages au serveur
+ *
+ */
 public class MessageSender extends Thread {
 
 	private Socket sock;
@@ -43,18 +46,25 @@ public class MessageSender extends Thread {
 	public void requestLoop() {
 
 		consoleIn = new BufferedReader(new InputStreamReader(System.in));
-		connexion();
+		connexion(); // On atomise en différentes fonctions pour plus de clarté
 		saisirMessages();
 	}
 	
-	
+	/**
+	 * Méthode envoyant le pseudo au serveur
+	 */
 	public void connexion(){
 		String pseudo = "Exemple";
+		System.out.println("Bienvenue dans votre application de chat !");
 		
 		try {
+			/**
+			 * Nous n'avons pas réussi a faire la vérification du pseudo dans une boucle do while
+			 * à cause d'un problème de synchronisation des objets
+			 */
 			System.out.println("Entrez votre pseudo: ");
 			pseudo = consoleIn.readLine();
-			mainclient.utilisateur = new Utilisateur(pseudo);
+			mainclient.utilisateur = new Utilisateur(pseudo); // on créé une nouvelle instance d'utilisateur puis on l'envoie
 			oos.writeObject(mainclient.utilisateur);
 			oos.flush();
 			
@@ -63,17 +73,24 @@ public class MessageSender extends Thread {
 		}
 	}
 	
+	/**
+	 * Permet au client d'envoyer des messages tant qu'il n'écrit pas exit
+	 */
 	public void saisirMessages(){
 		String message = "Exemple";
+		boolean condition = true;
+		System.out.println("Vous pouvez désormais envoyer des messages aux autres utilisateurs en ligne !");
+
 		try {
-			while (true) {
+			while (condition) {
 				System.out.println("Entrez un message: ");
 				message = consoleIn.readLine();
 				oos.writeObject(message);
 				oos.flush();
-				/*if (message.equals("exit")) {
-					System.out.print("Un client s'est déconnecté\n");
-				}*/
+				if (message.equals("exit")) {
+					System.out.print("Déconnexion");
+					condition = false;
+				}
 			}
 		} catch (IOException e) {
 			Logger.getLogger(MessageSender.class.getName()).log(Level.SEVERE, null, e);

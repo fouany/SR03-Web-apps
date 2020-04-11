@@ -2,10 +2,14 @@ package Model;
 
 import java.io.Serializable;
 
+/**
+ * Constitue le modèle d'un utilisateur, modélisé par un peudo
+ * Il a une getter, une setter, une equals() et une toString()
+ * Ainsi, les données sont facilement acessibles et affichables en console grâce à la toString()
+ */
 public class Utilisateur implements Serializable{
 	
 	private String pseudo;
-
 	
 	public Utilisateur(String pseudo) {
 		this.pseudo = pseudo;

@@ -2,15 +2,17 @@ package clientPackage;
 
 import java.io.*;
 import java.net.*;
-import Model.ThreadClient;
 import Model.Utilisateur;
 
-class MainClient {
+/**
+ * Chaque client aura un thread receveur et envoyeur, ainsi qu'un objet
+ * utilisateur pour stocker le pseudo
+ */
+public class MainClient {
 
 	private Socket sock = null;
 	private MessageReceptor msgReceptor;
 	private MessageSender msgSender;
-	protected boolean pseudoAccepte;
 	protected Utilisateur utilisateur;
 	
 	public MainClient(String serverAddr, int port) throws IOException {
@@ -18,10 +20,9 @@ class MainClient {
 	}
 
 	public void mainLoop() {
-		pseudoAccepte = true;
-		msgReceptor = new MessageReceptor(sock, this);
+		msgReceptor = new MessageReceptor(sock, this); // on démarre le thread receveur sur la socket client
 		msgReceptor.start();
-		msgSender = new MessageSender(sock, this);
+		msgSender = new MessageSender(sock, this); // on démarre le thread envoyeur sur la socket client
 		msgSender.start();
 	}
 }

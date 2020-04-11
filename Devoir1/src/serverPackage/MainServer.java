@@ -7,7 +7,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import Model.Utilisateur;
 
-
+/**
+ * MainServer stocke la liste des utilisateurs et la liste des ThreadServers
+ * Les listes sont en protected pour pouvoir être accessibles depuis le ThreadServer
+ */
 public class MainServer {
 
 	private ServerSocket conn = null;
@@ -26,10 +29,11 @@ public class MainServer {
 		ThreadServer t = null;
 		while (true) {
 			try {
-				sock = conn.accept();
-				t = new ThreadServer(sock, this);
-				t.start();
-				threadsServer.add(t);
+				sock = conn.accept(); // on accepte les connexions sans interruption
+				System.out.println("Nouvelle connexion client");
+				t = new ThreadServer(sock, this); // on instancie un ThreadServer pour chaque nouvelle connexion acceptée
+				t.start(); // on démarre le thread
+				threadsServer.add(t); // on ajoute le nouveau thread à la liste globale des ThreadServer
 
 			} catch (IOException e) {
 				Logger.getLogger(MainServer.class.getName()).log(Level.SEVERE, null, e);
