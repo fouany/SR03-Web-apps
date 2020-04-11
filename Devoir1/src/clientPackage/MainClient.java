@@ -20,9 +20,9 @@ public class MainClient {
 	}
 
 	public void mainLoop() {
-		msgReceptor = new MessageReceptor(sock, this); // on démarre le thread receveur sur la socket client
+		msgReceptor = new MessageReceptor(sock, this); // on demarre le thread receveur sur la socket client
 		msgReceptor.start();
-		msgSender = new MessageSender(sock, this); // on démarre le thread envoyeur sur la socket client
+		msgSender = new MessageSender(sock, this); // on demarre le thread envoyeur sur la socket client
 		msgSender.start();
 	}
 }
