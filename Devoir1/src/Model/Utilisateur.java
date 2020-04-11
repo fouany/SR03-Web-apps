@@ -3,9 +3,9 @@ package Model;
 import java.io.Serializable;
 
 /**
- * Constitue le modèle d'un utilisateur, modélisé par un peudo
+ * Constitue le modele d'un utilisateur, modelise par un peudo
  * Il a une getter, une setter, une equals() et une toString()
- * Ainsi, les données sont facilement acessibles et affichables en console grâce à la toString()
+ * Ainsi, les donnes sont facilement acessibles et affichables en console grace a la toString()
  */
 public class Utilisateur implements Serializable{
 	
