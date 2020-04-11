@@ -83,7 +83,6 @@ public class MessageSender extends Thread {
 
 		try {
 			while (condition) {
-				System.out.println("Entrez un message: ");
 				message = consoleIn.readLine();
 				oos.writeObject(message);
 				oos.flush();
