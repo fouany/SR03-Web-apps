@@ -9,7 +9,7 @@ import Model.Utilisateur;
 
 /**
  * MainServer stocke la liste des utilisateurs et la liste des ThreadServers
- * Les listes sont en protected pour pouvoir être accessibles depuis le ThreadServer
+ * Les listes sont en protected pour pouvoir etre accessibles depuis le ThreadServer
  */
 public class MainServer {
 
@@ -31,9 +31,9 @@ public class MainServer {
 			try {
 				sock = conn.accept(); // on accepte les connexions sans interruption
 				System.out.println("Nouvelle connexion client");
-				t = new ThreadServer(sock, this); // on instancie un ThreadServer pour chaque nouvelle connexion acceptée
-				t.start(); // on démarre le thread
-				threadsServer.add(t); // on ajoute le nouveau thread à la liste globale des ThreadServer
+				t = new ThreadServer(sock, this); // on instancie un ThreadServer pour chaque nouvelle connexion accepte
+				t.start(); // on demarre le thread
+				threadsServer.add(t); // on ajoute le nouveau thread a la liste globale des ThreadServer
 
 			} catch (IOException e) {
 				Logger.getLogger(MainServer.class.getName()).log(Level.SEVERE, null, e);
