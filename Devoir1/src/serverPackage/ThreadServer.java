@@ -4,9 +4,7 @@ import java.io.*;
 import java.net.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import Model.Utilisateur;
-import clientPackage.MessageReceptor;
 
 public class ThreadServer extends Thread {
 
@@ -16,7 +14,7 @@ public class ThreadServer extends Thread {
 	private Socket sock = null;
 	private int port = -1;
 
-	MainServer mainserver;
+	protected MainServer mainserver;
 
 	public ThreadServer(Socket sock, MainServer mainserver) throws IOException {
 		this.sock = sock;
@@ -81,10 +79,7 @@ public class ThreadServer extends Thread {
 		return true;
 	}
 	
-	
-	
 	public void envoyerATous(String message) {
-		//System.out.println("Liste des threadsServer: " + mainserver.threadsServer);
 		for (int i = 0; i < mainserver.threadsServer.size(); i++) {
 			try {
 				mainserver.threadsServer.get(i).oos.writeObject(message);
@@ -96,7 +91,6 @@ public class ThreadServer extends Thread {
 	}
 	
 	public void envoyerATous(Utilisateur potentiel, String message) {
-		//System.out.println("Liste des threadsServer: " + mainserver.threadsServer);
 		for (int i = 0; i < mainserver.threadsServer.size(); i++) {
 			try {
 				mainserver.threadsServer.get(i).oos.writeObject(potentiel.getPseudo() + " dit: " + message);

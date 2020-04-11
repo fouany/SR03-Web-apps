@@ -3,17 +3,19 @@ package serverPackage;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import Model.Utilisateur;
+
 
 public class MainServer {
 
-	ServerSocket conn = null;
-	Socket sock = null;
-	int port = -1;
+	private ServerSocket conn = null;
+	private Socket sock = null;
+	private int port = -1;
 	
-	ArrayList<Utilisateur> utilisateurs = new ArrayList<Utilisateur>();
-	ArrayList<ThreadServer> threadsServer = new ArrayList<ThreadServer>();
+	protected ArrayList<Utilisateur> utilisateurs = new ArrayList<Utilisateur>();
+	protected ArrayList<ThreadServer> threadsServer = new ArrayList<ThreadServer>();
 
 	public MainServer(int port) throws IOException {
 		this.port = port;
@@ -30,9 +32,8 @@ public class MainServer {
 				threadsServer.add(t);
 
 			} catch (IOException e) {
-				System.out.println(e.getMessage());
+				Logger.getLogger(MainServer.class.getName()).log(Level.SEVERE, null, e);
 			}
 		}
 	}
-
 }

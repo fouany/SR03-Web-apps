@@ -12,7 +12,6 @@ public class Server {
 
 		try {
 			server = new MainServer(port);
-			
 			System.out.println("Serveur prêt");
 			server.mainLoop();
 		} catch (IOException e) {

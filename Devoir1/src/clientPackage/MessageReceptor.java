@@ -2,11 +2,10 @@ package clientPackage;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 
 public class MessageReceptor extends Thread {
 
@@ -50,9 +49,9 @@ public class MessageReceptor extends Thread {
 					System.out.println(messageRecu);
 			}
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();}
-		 catch (IOException e) {
-			e.printStackTrace();
+			Logger.getLogger(MessageReceptor.class.getName()).log(Level.SEVERE, null, e);
+		} catch (IOException e) {
+			Logger.getLogger(MessageReceptor.class.getName()).log(Level.SEVERE, null, e);
 		}
 	}
 }

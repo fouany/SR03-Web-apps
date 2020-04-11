@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,7 +32,8 @@ public class MessageSender extends Thread {
 			oos.flush();
 
 			requestLoop();
-
+			
+			oos.flush();
 			oos.close();
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
@@ -43,10 +43,10 @@ public class MessageSender extends Thread {
 	public void requestLoop() {
 
 		consoleIn = new BufferedReader(new InputStreamReader(System.in));
-		
 		connexion();
 		saisirMessages();
 	}
+	
 	
 	public void connexion(){
 		String pseudo = "Exemple";
@@ -59,7 +59,7 @@ public class MessageSender extends Thread {
 			oos.flush();
 			
 		} catch (IOException e) {
-			e.printStackTrace();
+			Logger.getLogger(MessageSender.class.getName()).log(Level.SEVERE, null, e);
 		}
 	}
 	
@@ -76,9 +76,7 @@ public class MessageSender extends Thread {
 				}*/
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			Logger.getLogger(MessageSender.class.getName()).log(Level.SEVERE, null, e);
 		}
 	}
-
-
 }
