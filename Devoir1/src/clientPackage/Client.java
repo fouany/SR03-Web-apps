@@ -1,50 +1,27 @@
 package clientPackage;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import Model.Utilisateur;
-
+/**
+ * Client contient le programme principal côté client Client contient les
+ * attributs de connexion : localhost pour l'adresse et 7000 pour le port
+ */
 public class Client {
-	
-	public static void main(String[] args){
-		
-		boolean pseudoAccepte = true;
-		
-	    try {
-	    	Socket client = new Socket("localhost", 7000);
-	        System.out.println("Connect� ....");
-	        Scanner sc = new Scanner(System.in);
-	        
-	    	do {
-	    		
-	    		do {
-	    			String pseudo = "";
-	    			if (pseudoAccepte) System.out.println ("Entrez votre pseudo : ");
-	    			else System.out.println ("Veuillez saisir un autre pseudo : ");
-		 	        
-	    			pseudo = sc.nextLine();
-		 	        	 	        
-		 	        Utilisateur potentiel = new Utilisateur(pseudo, null);
-		 	      
-		 	        ObjectOutputStream oos = new ObjectOutputStream(client.getOutputStream());
-		 	        oos.writeObject(potentiel);
-		 	        oos.flush();
-		 	        
-        			ObjectInputStream ois = new ObjectInputStream(client.getInputStream());
-		 	        pseudoAccepte = ois.readBoolean();
-		 	     
-	    		} while(!pseudoAccepte);
 
-	    	} while(true);
-                      
-	    } catch (IOException ex) {
-	        Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-	    }
+	private static String serverAddr = "localhost";
+	private static int port = 7000;
+
+	public static void main(String[] args) {
+
+		MainClient client;
+
+		try {
+			client = new MainClient(serverAddr, port);
+			client.mainLoop(); // On démarre la méthode principale de MainClient
+
+		} catch (IOException e) {
+			System.out.println("Problème de connexion au serveur : " + e.getMessage());
+			System.exit(1);
+		}
 	}
 }

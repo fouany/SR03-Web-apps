@@ -1,21 +1,18 @@
 package Model;
 
-import java.io.*;
-import java.net.Socket;
+import java.io.Serializable;
 
+/**
+ * Constitue le modele d'un utilisateur, modelise par un peudo
+ * Il a une getter, une setter, une equals() et une toString()
+ * Ainsi, les donnes sont facilement acessibles et affichables en console grace a la toString()
+ */
 public class Utilisateur implements Serializable{
 	
 	private String pseudo;
-	private Socket sock;
-	private MessageReceptor messageReceptor;
-	private MessageSender messageSender;
 	
-	
-	public Utilisateur(String pseudo, Socket sock) {
+	public Utilisateur(String pseudo) {
 		this.pseudo = pseudo;
-		this.sock = sock;
-		this.messageReceptor = messageReceptor;
-		this.messageSender = messageSender;
 	}
 
 	public String getPseudo() {
@@ -24,30 +21,6 @@ public class Utilisateur implements Serializable{
 
 	public void setPseudo(String pseudo) {
 		this.pseudo = pseudo;
-	}
-
-	public Socket getSock() {
-		return sock;
-	}
-
-	public void setSock(Socket sock) {
-		this.sock = sock;
-	}
-
-	public MessageReceptor getMesageReceptor() {
-		return messageReceptor;
-	}
-
-	public void setMessageReceptor(MessageReceptor msgReceptor) {
-		this.messageReceptor = msgReceptor;
-	}
-
-	public MessageSender getMessageSender() {
-		return messageSender;
-	}
-
-	public void setMessageSender(MessageSender messageSender) {
-		this.messageSender = messageSender;
 	}
 
 	@Override
@@ -59,7 +32,6 @@ public class Utilisateur implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Utilisateur other = (Utilisateur) obj;
-		
 		if (pseudo == null) {
 			if (other.pseudo != null)
 				return false;
@@ -67,12 +39,11 @@ public class Utilisateur implements Serializable{
 			return false;
 		return true;
 	}
+	
 
 	@Override
 	public String toString() {
-		return "Utilisateur [pseudo=" + pseudo + ", sock=" + sock + ", messageReceptor=" + messageReceptor
-				+ ", messageSender=" + messageSender + "]";
+		return "Utilisateur [pseudo=" + pseudo + "]";
 	}
-
 
 }

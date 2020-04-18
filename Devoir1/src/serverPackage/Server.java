@@ -1,88 +1,26 @@
 package serverPackage;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.ArrayList;
 
-import Model.MessageReceptor;
-import Model.Utilisateur;
-
+/**
+ * Server contient la programme principal côté serveur Server va instancier un
+ * MainServer sur le port 7000
+ */
 public class Server {
 
-	private static ArrayList<Utilisateur> clients = new ArrayList<Utilisateur>();
+	private static int port = 7000;
 
 	public static void main(String[] args) {
 
-		Utilisateur potentiel;
-		boolean pseudoAccepte;
-		ServerSocket server = null;
-		Socket client = null;
-		
+		MainServer server = null;
+
 		try {
-			server = new ServerSocket(7000);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
-
-		while (true) {
-			try {
-				System.out.println("Serveur à l'écoute ...");
-				client = server.accept();
-				System.out.println("Client en attente ...");
-
-				do {
-					do {
-						ObjectInputStream ois = new ObjectInputStream(client.getInputStream());
-						potentiel = (Utilisateur) ois.readObject();
-						ObjectOutputStream oos = new ObjectOutputStream(client.getOutputStream());
-
-						if (!checkPseudo(potentiel)) {
-							pseudoAccepte = false;
-							oos.writeBoolean(false);
-						} else {
-							pseudoAccepte = true;
-							oos.writeBoolean(true);
-						}
-						oos.flush();
-
-					} while (!pseudoAccepte);
-
-					potentiel.setSock(client);
-					potentiel.setMessageReceptor(new MessageReceptor(client));
-					clients.add(potentiel);
-
-					System.out.println("\n" + potentiel.getPseudo() + " a rejoint la conversation \n");
-					System.out.println(potentiel);
-					afficherUtilisateurs();
-
-				} while (true);
-
-			} catch (IOException ex) {
-				System.err.println("Client déconnecté ...");
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
+			server = new MainServer(port);
+			System.out.println("Serveur prêt");
+			server.mainLoop(); // On démarre la méthode principale de MainServer
+		} catch (IOException e) {
+			System.out.println("Problème de création serveur : " + e.getMessage());
+			System.exit(1);
 		}
 	}
-
-	public static boolean checkPseudo(Utilisateur potentiel) {
-		for (int i = 0; i < clients.size(); i++) {
-			if (clients.get(i).equals(potentiel))
-				return false;
-		}
-		return true;
-	}
-
-	public static void afficherUtilisateurs() {
-		System.out.println("\nUtilisateurs en ligne : ");
-		for (int i = 0; i < clients.size(); i++) {
-			System.out.println(clients.get(i));
-		}
-	}
-
 }
