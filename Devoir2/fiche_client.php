@@ -1,6 +1,8 @@
 <?php
 session_start();
 ?>
+<p>Sélectionnez un client dans la liste pour voir sa fiche personnelle.
+</br></br>
 
 <FORM Method="post" action="fiche_client_virement.php">
 <input type="hidden" name="action" value="connexion">
@@ -39,3 +41,5 @@ $mysqli=mysqli_connect($db_connection_array['DB_HOST'], $db_connection_array['DB
  
 </select>
 </FORM>
+
+</br></br><a href="index.php">retourner sur mon compte</a>

@@ -1,6 +1,8 @@
 <?php
 session_start();
 ?>
+<p>Voici les informations personnelles du client demandé
+</br></br>
 <?php
 $client=$_REQUEST['client'];
  $db_connection_array = parse_ini_file("config/config.ini");
@@ -18,26 +20,34 @@ $client=$_REQUEST['client'];
 					$result=$mysqli->query($req);
 					}
 					$users=$result->fetch_assoc();
+					echo('nom: ');
 					echo($users['nom']);
 					echo('</br>');
+					echo('prénom: ');
 					echo($users['prenom']);
 					echo('</br>');
+					echo('login: ');
 					echo($users['login']);
 					echo('</br>');
+					echo('numéro de compte: ');
 					echo($users['numero_compte']);
 					$num_cpte=$users['numero_compte'];
 					echo('</br>');
+					echo('solde du compte: ');
 					echo($users['solde_compte']);
 					echo('</br>');
 					echo('</br>');
 				}
-
- echo("<form method='POST' action='virement.php'>");
-                echo("<input type='hidden' name='numero_compte' value=$num_cpte />");
-				echo("Montant du virement à effectuer depuis ce compte");
-				echo("<input type='text' name='montant' />");
-				echo("Numéro du compte bénéficiaire");
-				echo("<input type='text' name='num_cpte_benef' />");
-                echo('<button>Effectuer un virement depuis ce compte</button>');
-            echo('</form>');
 ?>
+<form method='POST' action='virement.php'>
+                <input type='hidden' name='numero_compte' value="<?php echo $num_cpte; ?>" />
+				</br>Montant du virement à effectuer depuis ce compte
+				</br><input type='text' name='montant' />
+				</br>Numéro du compte bénéficiaire
+				</br><input type='text' name='num_cpte_benef' />
+                </br><button>Effectuer un virement depuis ce compte</button>
+           </form>
+
+
+
+</br></br><a href="index.php">retourner sur mon compte</a>

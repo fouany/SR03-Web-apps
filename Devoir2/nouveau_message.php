@@ -3,8 +3,9 @@ session_start();
 $statut=$_SESSION["connected_user"]["profil_user"];
 $id_from=$_SESSION["connected_user"]["id_user"];
 ?>
-
-<FORM Method="post" action="envoi.php">
+Choisissez le destinataire dans la liste:
+<br>
+<FORM Method="post" action="envoi.php" id='message'>
 <input type="hidden" name="action" value="connexion">
 <select name="destinataire" >
 <?php
@@ -17,7 +18,11 @@ $mysqli=mysqli_connect($db_connection_array['DB_HOST'], $db_connection_array['DB
 				else {
 					if($statut=='CLIENT')
 					{
-				    $req='SELECT * FROM users';
+				    $req="SELECT * FROM users WHERE profil_user='EMPLOYE' AND id_user!='$id_from'";
+					}
+					else
+					{
+					$req="SELECT * FROM users WHERE id_user!='$id_from'";
 					}
 				if (!$result = $mysqli->query($req)) {
 				echo 'Erreur requête BDD ['.$req.'] (' . $mysqli->errno . ') '. $mysqli->error;
@@ -29,13 +34,19 @@ $mysqli=mysqli_connect($db_connection_array['DB_HOST'], $db_connection_array['DB
 				{
 ?>
  
-<option value="<?php echo $users['nom'];?>"><?php echo $users['prenom'];?></option>
+<option value="<?php echo $users['id_user'];?>"><?php echo $users['prenom']; echo' '; echo $users['nom'];?></option>
  
 <?php
 }
 				}
 ?>
-<p><input type="submit" value="Afficher la fiche client">
+</br>
+<input type='hidden' name='id_from' value="<?php echo $id_from;?>"/>
+</br>
+<input type="text" name='sujet' placeholder='Sujet du message'>
+</br>
+<textarea name="corps" form="message" cols='70' rows='30'>Entrez votre message ici</textarea>
+</br><input type="submit" value="Envoyer le message">
 
 </input></p>
  

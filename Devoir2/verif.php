@@ -5,7 +5,6 @@ session_start();
 			$pwd=$_REQUEST['mdp'];
 			$login=$_REQUEST['login'];
           if (!isset($login) || !isset($pwd) || $pwd == "" || $login == "") {
-              // manque login ou mot de passe
               $url_redirect = "connexion.php"; 
           } else {
 			    $db_connection_array = parse_ini_file("config/config.ini");
@@ -30,7 +29,7 @@ session_start();
 			else
 			{
 				$_SESSION["connected_user"] = $utilisateur;
-                $url_redirect = "accueil.php";
+                $url_redirect = "index.php";
 			}
       $mysqli->close();
 			}

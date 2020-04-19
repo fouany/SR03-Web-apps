@@ -3,10 +3,9 @@ session_start();
 $debiteur= $_REQUEST['numero_compte'];
 $receveur=$_REQUEST['num_cpte_benef'];
 $montant=$_REQUEST['montant'];
-$url_redirect="accueil.php";
+$url_redirect="index.php";
 ?>
 <?php
-echo($debiteur);
 
 $db_connection_array = parse_ini_file("config/config.ini");
 $mysqli=mysqli_connect($db_connection_array['DB_HOST'], $db_connection_array['DB_USER'], $db_connection_array['DB_PASSWD'], $db_connection_array['DB_NAME']);
@@ -29,7 +28,7 @@ $mysqli=mysqli_connect($db_connection_array['DB_HOST'], $db_connection_array['DB
 				}
 				
 				      $mysqli->close();
-					  
- header("Location: $url_redirect");
+
+ header("Refresh:5; $url_redirect");
 ?>
  

@@ -39,3 +39,5 @@ $mysqli=mysqli_connect($db_connection_array['DB_HOST'], $db_connection_array['DB
 
 </br></br>
 <a href="nouveau_message.php">Envoyer un message</a>
+
+</br></br><a href="index.php">retourner sur mon compte</a>
