@@ -14,7 +14,7 @@ session_start();
 				echo 'Erreur connection BDD (' . $mysqli->connect_errno . ') '. $mysqli->connect_error;
 				}
 				else {
-				$req="select id_user,login,mot_de_passe,profil_user,nom,prenom,numero_compte,solde_compte from users where login='$login' and mot_de_passe='$pwd'";
+				$req="select id_user,profil_user,nom,prenom,numero_compte from users where login='$login' and mot_de_passe='$pwd'";
 				if (!$result = $mysqli->query($req)) {
 				echo 'Erreur requête BDD ['.$req.'] (' . $mysqli->errno . ') '. $mysqli->error;
 			       } 	

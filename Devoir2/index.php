@@ -1,5 +1,35 @@
 <?php
 session_start();
+$id=$_SESSION["connected_user"]["id_user"];
+?>
+<?php
+function getMySqliConnection() {
+  $db_connection_array = parse_ini_file("config/config.ini");
+  return new mysqli($db_connection_array['DB_HOST'], $db_connection_array['DB_USER'], $db_connection_array['DB_PASSWD'], $db_connection_array['DB_NAME']);
+}
+
+function get_solde($ids) {
+  $mysqli = getMySqliConnection();
+
+  $solde = 0;
+
+  if ($mysqli->connect_error) {
+      echo 'Erreur connection BDD (' . $mysqli->connect_errno . ') '. $mysqli->connect_error;
+  } else {
+      $req="SELECT solde_compte from users WHERE id_user='$ids'";
+      if (!$result = $mysqli->query($req)) {
+          echo 'Erreur requête BDD ['.$req.'] (' . $mysqli->errno . ') '. $mysqli->error;
+      } else {
+		$solde=$result->fetch_assoc();
+	  
+          $result->free();
+      }
+      $mysqli->close();
+  }
+
+  return $solde;
+}
+$solde=get_solde($id);
 ?>
 <!doctype html>
 <html lang="fr">
@@ -20,7 +50,7 @@ session_start();
                   <label>N° compte : </label><span><?php echo $_SESSION["connected_user"]["numero_compte"];?></span>
               </div>
               <div class="field">
-                  <label>Solde : </label><span><?php echo $_SESSION["connected_user"]["solde_compte"];?> &euro;</span>
+                  <label>Solde : </label><span><?php echo $solde['solde_compte'];?> &euro;</span>
               </div>
           </div>
 		  </br>
