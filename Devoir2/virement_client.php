@@ -12,4 +12,4 @@ $num_cpte=$_SESSION["connected_user"]["numero_compte"];
 </br></br><button>Effectuer un virement vers le destinataire</button>
 </form>
 
-</br></br><a href="index.php">retourner sur mon compte</a>
+</br></br><a href="vue_compte.php">retourner sur mon compte</a>

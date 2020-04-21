@@ -53,4 +53,4 @@ $mysqli=mysqli_connect($db_connection_array['DB_HOST'], $db_connection_array['DB
 </select>
 </FORM>
 
-</br></br><a href="index.php">retourner sur mon compte</a>
+</br></br><a href="vue_compte.php">retourner sur mon compte</a>

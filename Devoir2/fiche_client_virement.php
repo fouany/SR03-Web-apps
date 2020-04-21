@@ -50,4 +50,4 @@ $client=$_REQUEST['client'];
 
 
 
-</br></br><a href="index.php">retourner sur mon compte</a>
+</br></br><a href="vue_compte.php">retourner sur mon compte</a>

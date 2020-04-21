@@ -5,7 +5,7 @@ session_start();
 			$pwd=$_REQUEST['mdp'];
 			$login=$_REQUEST['login'];
           if (!isset($login) || !isset($pwd) || $pwd == "" || $login == "") {
-              $url_redirect = "connexion.php"; 
+              $url_redirect = "index.php"; 
           } else {
 			    $db_connection_array = parse_ini_file("config/config.ini");
 				$mysqli=mysqli_connect($db_connection_array['DB_HOST'], $db_connection_array['DB_USER'], $db_connection_array['DB_PASSWD'], $db_connection_array['DB_NAME']);
@@ -24,12 +24,12 @@ session_start();
 			$result->free();
 			if (empty($utilisateur))
 			{
-				$url_redirect = "connexion.php";
+				$url_redirect = "index.php";
 			}
 			else
 			{
 				$_SESSION["connected_user"] = $utilisateur;
-                $url_redirect = "index.php";
+                $url_redirect = "vue_compte.php";
 			}
       $mysqli->close();
 			}

@@ -3,7 +3,7 @@ session_start();
 $debiteur= $_REQUEST['numero_compte'];
 $receveur=$_REQUEST['num_cpte_benef'];
 $montant=$_REQUEST['montant'];
-$url_redirect="index.php";
+$url_redirect="vue_compte.php";
 ?>
 <?php
 
