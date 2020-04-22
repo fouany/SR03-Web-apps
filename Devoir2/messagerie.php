@@ -1,12 +1,14 @@
 <?php
 session_start();
-$id=$_SESSION["connected_user"]["id_user"];
-?>
-Liste des messages:
-</br>
- 
-<?php
 
+ if (isset($_SESSION["connected_user"]))
+ {
+	 $id=$_SESSION["connected_user"]["id_user"];
+?>
+
+<?php
+if(ctype_digit($id))
+{
 function getMySqliConnection() {
   $db_connection_array = parse_ini_file("config/config.ini");
   return new mysqli($db_connection_array['DB_HOST'], $db_connection_array['DB_USER'], $db_connection_array['DB_PASSWD'], $db_connection_array['DB_NAME']);
@@ -33,7 +35,10 @@ function get_nom($ids) {
 
   return $user;
 }
- 
+ ?>
+ Liste des messages:
+</br>
+ <?php
 $db_connection_array = parse_ini_file("config/config.ini");
 $mysqli=mysqli_connect($db_connection_array['DB_HOST'], $db_connection_array['DB_USER'], $db_connection_array['DB_PASSWD'], $db_connection_array['DB_NAME']);
   if ($mysqli->connect_error) {
@@ -73,3 +78,20 @@ $mysqli=mysqli_connect($db_connection_array['DB_HOST'], $db_connection_array['DB
 <a href="nouveau_message.php">Envoyer un message</a>
 
 </br></br><a href="vue_compte.php">retourner sur mon compte</a>
+<?php
+ }
+ else
+ {
+		  ?>
+ <p>Une erreur est survenue, veuillez réessayer</p>
+  </br></br><a href="vue_compte.php">Revenir à mon compte</a>
+ <?php 
+ }
+ }
+ else{
+ ?>
+ <p>Vous ne devriez pas être la sans être connecté veuillez vous connecter</p>
+ </br></br><a href="index.php">Se connecter</a>
+ <?php
+ }
+ ?>

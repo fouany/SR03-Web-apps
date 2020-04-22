@@ -1,7 +1,12 @@
 <?php
 session_start();
-$statut=$_SESSION["connected_user"]["profil_user"];
+
+ if (isset($_SESSION["connected_user"]))
+ {
+	 $statut=$_SESSION["connected_user"]["profil_user"];
 $id_from=$_SESSION["connected_user"]["id_user"];
+if(ctype_alpha($statut) && ctype_digit($id_from))
+{
 ?>
 Choisissez le destinataire dans la liste:
 <br>
@@ -54,3 +59,20 @@ $mysqli=mysqli_connect($db_connection_array['DB_HOST'], $db_connection_array['DB
 </FORM>
 
 </br></br><a href="vue_compte.php">retourner sur mon compte</a>
+<?php
+ }
+ else
+ {
+		  ?>
+ <p>Une erreur est survenue, veuillez réessayer</p>
+  </br></br><a href="vue_compte.php">Revenir à mon compte</a>
+ <?php 
+ }
+ }
+ else{
+ ?>
+ <p>Vous ne devriez pas être la sans être connecté veuillez vous connecter</p>
+ </br></br><a href="index.php">Se connecter</a>
+ <?php
+ }
+ ?>

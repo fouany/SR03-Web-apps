@@ -1,8 +1,11 @@
 <?php
 session_start();
-$id=$_SESSION["connected_user"]["id_user"];
+
 ?>
 <?php
+ if (isset($_SESSION["connected_user"]))
+ {
+	 $id=$_SESSION["connected_user"]["id_user"];
 function getMySqliConnection() {
   $db_connection_array = parse_ini_file("config/config.ini");
   return new mysqli($db_connection_array['DB_HOST'], $db_connection_array['DB_USER'], $db_connection_array['DB_PASSWD'], $db_connection_array['DB_NAME']);
@@ -78,3 +81,12 @@ if($_SESSION["connected_user"]["profil_user"]=="EMPLOYE")
 
 </body>
 </html>
+ <?php
+ }
+ else{
+ ?>
+ <p>Vous ne devriez pas être la sans être connecté veuillez vous connecter</p>
+ </br></br><a href="index.php">Se connecter</a>
+ <?php
+ }
+ ?>

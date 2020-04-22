@@ -4,7 +4,7 @@ session_start();
 
 			$pwd=$_REQUEST['mdp'];
 			$login=$_REQUEST['login'];
-          if (!isset($login) || !isset($pwd) || $pwd == "" || $login == "") {
+          if (!isset($login) || !isset($pwd) || $pwd == "" || $login == "" || !ctype_alnum($pwd) || !ctype_alnum($login)) {
               $url_redirect = "index.php"; 
           } else {
 			    $db_connection_array = parse_ini_file("config/config.ini");

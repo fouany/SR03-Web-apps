@@ -1,6 +1,9 @@
 <?php
 session_start();
-$num_cpte=$_SESSION["connected_user"]["numero_compte"];
+
+ if (isset($_SESSION["connected_user"]))
+ {
+	 $num_cpte=$_SESSION["connected_user"]["numero_compte"];
 ?>
 
 <form method='POST' action='virement.php'>
@@ -13,3 +16,12 @@ $num_cpte=$_SESSION["connected_user"]["numero_compte"];
 </form>
 
 </br></br><a href="vue_compte.php">retourner sur mon compte</a>
+<?php
+ }
+ else{
+ ?>
+ <p>Vous ne devriez pas être la sans être connecté veuillez vous connecter</p>
+ </br></br><a href="index.php">Se connecter</a>
+ <?php
+ }
+ ?>

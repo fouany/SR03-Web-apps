@@ -1,10 +1,14 @@
 <?php
 session_start();
+ if (isset($_SESSION["connected_user"]) && ($_SESSION["connected_user"]["profil_user"]=='EMPLOYE'))
+ {
 ?>
 <p>Voici les informations personnelles du client demandé
 </br></br>
 <?php
 $client=$_REQUEST['client'];
+if(ctype_alnum($client))
+{
  $db_connection_array = parse_ini_file("config/config.ini");
  $mysqli=mysqli_connect($db_connection_array['DB_HOST'], $db_connection_array['DB_USER'], $db_connection_array['DB_PASSWD'], $db_connection_array['DB_NAME']);
           
@@ -51,3 +55,22 @@ $client=$_REQUEST['client'];
 
 
 </br></br><a href="vue_compte.php">retourner sur mon compte</a>
+<?php
+ }
+ else
+ {
+	  ?>
+ <p>Vous n'êtes pas autorisé à faire ça, veuillez quitter cette page</p>
+ </br></br><a href="index.php">Se connecter</a>
+  </br></br><a href="vue_compte.php">Revenir à mon compte</a>
+ <?php
+ }
+ }
+ else{
+ ?>
+ <p>Vous ne devriez pas être la sans être connecté ou si vous n'êtes pas employé, veuillez quitter cette page</p>
+ </br></br><a href="index.php">Se connecter</a>
+  </br></br><a href="vue_compte.php">Revenir à mon compte</a>
+ <?php
+ }
+ ?>
