@@ -1,78 +1,88 @@
-<?php
-session_start();
+<!doctype html>
+<html lang="fr">
+<head>
+	<meta charset="utf-8">
+	<title>Nouveau message</title>
+	<link rel="stylesheet" type="text/css" media="all"  href="css/mystyle.css" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
 
- if (isset($_SESSION["connected_user"]))
- {
-	 $statut=$_SESSION["connected_user"]["profil_user"];
-$id_from=$_SESSION["connected_user"]["id_user"];
-if(ctype_alpha($statut) && ctype_digit($id_from))
-{
-?>
-Choisissez le destinataire dans la liste:
-<br>
-<FORM Method="post" action="envoi.php" id='message'>
-<input type="hidden" name="action" value="connexion">
-<select name="destinataire" >
-<?php
- 
-$db_connection_array = parse_ini_file("config/config.ini");
-$mysqli=mysqli_connect($db_connection_array['DB_HOST'], $db_connection_array['DB_USER'], $db_connection_array['DB_PASSWD'], $db_connection_array['DB_NAME']);
-  if ($mysqli->connect_error) {
-				echo 'Erreur connection BDD (' . $mysqli->connect_errno . ') '. $mysqli->connect_error;
-				}
-				else {
-					if($statut=='CLIENT')
-					{
-				    $req="SELECT * FROM users WHERE profil_user='EMPLOYE' AND id_user!='$id_from'";
+
+
+	<?php
+	session_start();
+
+	if (isset($_SESSION["connected_user"]))
+	{
+		$statut=$_SESSION["connected_user"]["profil_user"];
+		$id_from=$_SESSION["connected_user"]["id_user"];
+		if(ctype_alpha($statut) && ctype_digit($id_from))
+		{
+			?>
+
+			<p>Choisissez le destinataire dans la liste:</p>
+			<div class="text-center">
+
+			<FORM Method="post" action="envoi.php" id='message'>
+				<input type="hidden" name="action" value="connexion">
+				<select name="destinataire" >
+					<?php
+
+					$db_connection_array = parse_ini_file("config/config.ini");
+					$mysqli=mysqli_connect($db_connection_array['DB_HOST'], $db_connection_array['DB_USER'], $db_connection_array['DB_PASSWD'], $db_connection_array['DB_NAME']);
+					if ($mysqli->connect_error) {
+						echo 'Erreur connection BDD (' . $mysqli->connect_errno . ') '. $mysqli->connect_error;
 					}
-					else
-					{
-					$req="SELECT * FROM users WHERE id_user!='$id_from'";
+					else {
+						if($statut=='CLIENT')
+						{
+							$req="SELECT * FROM users WHERE profil_user='EMPLOYE' AND id_user!='$id_from'";
+						}
+						else
+						{
+							$req="SELECT * FROM users WHERE id_user!='$id_from'";
+						}
+						if (!$result = $mysqli->query($req)) {
+							echo 'Erreur requête BDD ['.$req.'] (' . $mysqli->errno . ') '. $mysqli->error;
+						} 
+						else{
+							$result=$mysqli->query($req);
+						}
+						while($users=$result->fetch_assoc())
+						{
+							?>
+
+							<option value="<?php echo $users['id_user'];?>"><?php echo $users['prenom']; echo' '; echo $users['nom'];?></option>
+
+							<?php
+						}
 					}
-				if (!$result = $mysqli->query($req)) {
-				echo 'Erreur requête BDD ['.$req.'] (' . $mysqli->errno . ') '. $mysqli->error;
-			       } 
-					else{
-					$result=$mysqli->query($req);
-					}
-				while($users=$result->fetch_assoc())
-				{
-?>
- 
-<option value="<?php echo $users['id_user'];?>"><?php echo $users['prenom']; echo' '; echo $users['nom'];?></option>
- 
-<?php
+					?>
+					<input  type='hidden' name='id_from' value="<?php echo $id_from;?>"/>
+					<input class="form-field" type="text" name='sujet' placeholder='Sujet du message'>
+					<textarea class="form-field" name="corps" form="message" cols='70' rows='10'>Entrez votre message ici</textarea>
+					<input class="btn btn-primary" type="submit" value="Envoyer le message"/>
+					</div>
+
+			</select>
+		</FORM>
+
+		<a href="vue_compte.php">Retourner sur mon compte</a>
+		<?php
+	}
+	else
+	{
+		?>
+		<p>Une erreur est survenue, veuillez réessayer</p>
+		<a href="vue_compte.php">Revenir à mon compte</a>
+		<?php 
+	}
 }
-				}
+else{
+	?>
+	<p>L'accès n'est pas autorisé. Veuillez vous connecter.</p>
+	<a href="index.php">Se connecter</a>
+	<?php
+}
 ?>
-</br>
-<input type='hidden' name='id_from' value="<?php echo $id_from;?>"/>
-</br>
-<input type="text" name='sujet' placeholder='Sujet du message'>
-</br>
-<textarea name="corps" form="message" cols='70' rows='30'>Entrez votre message ici</textarea>
-</br><input type="submit" value="Envoyer le message">
-
-</input></p>
- 
-</select>
-</FORM>
-
-</br></br><a href="vue_compte.php">retourner sur mon compte</a>
-<?php
- }
- else
- {
-		  ?>
- <p>Une erreur est survenue, veuillez réessayer</p>
-  </br></br><a href="vue_compte.php">Revenir à mon compte</a>
- <?php 
- }
- }
- else{
- ?>
- <p>Vous ne devriez pas être la sans être connecté veuillez vous connecter</p>
- </br></br><a href="index.php">Se connecter</a>
- <?php
- }
- ?>
