@@ -1,5 +1,7 @@
 <?php
 session_start();
+require_once('include.php');
+require_once('config/config.php');
 ?>
 
 <!doctype html>

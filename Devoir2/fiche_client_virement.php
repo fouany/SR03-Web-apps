@@ -1,5 +1,8 @@
 <?php
 session_start();
+require_once('include.php');
+require_once('config/config.php');
+$mytoken=$_SESSION['mytoken'];
 if (isset($_SESSION["connected_user"]) && ($_SESSION["connected_user"]["profil_user"]=='EMPLOYE'))
 {
 	?>
@@ -8,8 +11,7 @@ if (isset($_SESSION["connected_user"]) && ($_SESSION["connected_user"]["profil_u
 	$client=$_REQUEST['client'];
 	
 	if(ctype_alnum($client)){
-		$db_connection_array = parse_ini_file("config/config.ini");
-		$mysqli=mysqli_connect($db_connection_array['DB_HOST'], $db_connection_array['DB_USER'], $db_connection_array['DB_PASSWD'], $db_connection_array['DB_NAME']);
+		$mysqli=mysqli_connect(DB_HOST, DB_USER, DB_PASSWD,DB_NAME);
 
 		if ($mysqli->connect_error) {
 			echo 'Erreur connection BDD (' . $mysqli->connect_errno . ') '. $mysqli->connect_error;
@@ -55,6 +57,7 @@ if (isset($_SESSION["connected_user"]) && ($_SESSION["connected_user"]["profil_u
 		</head>
 		<body>
 			<form method='POST' action='virement.php'>
+				<input type="hidden" name="mytoken" value="<?php echo $mytoken; ?>">
 				<input class="form-field" type='hidden' name='numero_compte' value="<?php echo $num_cpte; ?>" />
 				<p class="special">Montant du virement à effectuer depuis ce compte:</p>
 				<input type='text' name='montant' />

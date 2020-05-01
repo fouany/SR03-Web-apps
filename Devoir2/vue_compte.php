@@ -1,5 +1,10 @@
 <?php
 session_start();
+require_once('include.php');
+require_once('config/config.php');
+
+  $mytoken = bin2hex(random_bytes(128));
+  $_SESSION["mytoken"] = $mytoken;
 
 ?>
 <?php
@@ -7,8 +12,7 @@ if (isset($_SESSION["connected_user"]))
 {
   $id=$_SESSION["connected_user"]["id_user"];
   function getMySqliConnection() {
-    $db_connection_array = parse_ini_file("config/config.ini");
-    return new mysqli($db_connection_array['DB_HOST'], $db_connection_array['DB_USER'], $db_connection_array['DB_PASSWD'], $db_connection_array['DB_NAME']);
+    return new mysqli(DB_HOST, DB_USER, DB_PASSWD,DB_NAME);
   }
 
   function get_solde($ids) {

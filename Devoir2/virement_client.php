@@ -11,6 +11,9 @@
 
 	<?php
 	session_start();
+	require_once('include.php');
+	require_once('config/config.php');
+	$mytoken=$_SESSION['mytoken'];
 
 	if (isset($_SESSION["connected_user"]))
 	{
@@ -18,6 +21,7 @@
 		?>
 		<div class="text-center">
 		<form method='POST' action='virement.php'>
+			<input type="hidden" name="mytoken" value="<?php echo $mytoken; ?>">
 			<input class="form-field" type='hidden' name='numero_compte' value="<?php echo $num_cpte; ?>" />
 			<p class="special">Montant du virement à effectuer depuis votre compte</p>
 			<input class="form-field" type='text' name='montant' />

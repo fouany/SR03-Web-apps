@@ -10,6 +10,8 @@
 
 <?php
 session_start();
+require_once('include.php');
+require_once('config/config.php');
 
 if (isset($_SESSION["connected_user"])){
 	
@@ -21,11 +23,11 @@ if (isset($_SESSION["connected_user"])){
 	<?php
 	if(ctype_digit($id_from) && ctype_digit($id_to))
 	{
-		$sujet_mod=htmlspecialchars($sujet);
-		$corps_mod=htmlspecialchars($corps);
+		$car_interdits = array("'","\"",";","%","<",">"); 
+		$sujet_mod=str_replace($car_interdits, "", $sujet);
+		$corps_mod=str_replace($car_interdits, "", $corps);
 
-		$db_connection_array = parse_ini_file("config/config.ini");
-		$mysqli=mysqli_connect($db_connection_array['DB_HOST'], $db_connection_array['DB_USER'], $db_connection_array['DB_PASSWD'], $db_connection_array['DB_NAME']);
+		$mysqli=mysqli_connect(DB_HOST, DB_USER, DB_PASSWD,DB_NAME);
 		if ($mysqli->connect_error) {
 			echo 'Erreur connection BDD (' . $mysqli->connect_errno . ') '. $mysqli->connect_error;
 		}
