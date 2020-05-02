@@ -20,20 +20,21 @@
             session_destroy();
             echo "Votre session à expiré <a href='index.php'>reconnectez vous ici</a>";
         }
+		//permet de détruire la session si celle-ci est ouverte depuis plus de 30 minutes sans action
 
-else if (isset($_SESSION["connected_user"]))
+else if (isset($_SESSION["connected_user"]))  //on vérifie qu'une session est bien en cours avant d'afficher quoi que ce soit pour éviter une attaque par vol de session
 	{
 		$id=$_SESSION["connected_user"]["id_user"];
 		?>
 
 		<?php
-		if(is_numeric($id))
+		if(is_numeric($id)) //on vérifié que les entrées sont au bon format sinon on refuse l'action
 		{
 			function getMySqliConnection() {
 				return new mysqli(DB_HOST, DB_USER, DB_PASSWD,DB_NAME);
 			}
 
-			function get_nom($ids) {
+			function get_nom($ids) {                                                                                       //fonction permettant de récupérer le nom correspondant a l'id de l'expéditeur, pour un affichage plus user-friendly
 				$mysqli = getMySqliConnection();
 
 				$user = array();
@@ -55,9 +56,9 @@ else if (isset($_SESSION["connected_user"]))
 				return $user;
 			}
 			?>
-			<h1>Liste des messages</h1>	
+			<h1>Liste des messages</h1>	 
 		<?php
-		$mysqli=mysqli_connect(DB_HOST, DB_USER, DB_PASSWD,DB_NAME);
+		$mysqli=mysqli_connect(DB_HOST, DB_USER, DB_PASSWD,DB_NAME);                                              // On affiche tous les messages de l'utilisateur dont la session est en cours un par un 
 		if ($mysqli->connect_error) {
 			echo 'Erreur connection BDD (' . $mysqli->connect_errno . ') '. $mysqli->connect_error;
 		}

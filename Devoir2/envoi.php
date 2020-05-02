@@ -17,9 +17,10 @@ $now = time();
 if ($now > $_SESSION['expire']) {
             session_destroy();
             echo "Votre session à expiré <a href='index.php'>reconnectez vous ici</a>";
-        }
+        }//permet de détruire la session si celle-ci est ouverte depuis plus de 30 minutes sans action
 
-else if (isset($_SESSION["connected_user"])){
+else if (isset($_SESSION["connected_user"])) //on vérifie qu'une session est bien en cours avant d'afficher quoi que ce soit pour éviter une attaque par vol de session
+{
 	
 	$id_from= $_REQUEST['id_from'];
 	$id_to= $_REQUEST['destinataire'];
@@ -27,11 +28,11 @@ else if (isset($_SESSION["connected_user"])){
 	$corps= $_REQUEST['corps'];
 	?>
 	<?php
-	if(ctype_digit($id_from) && ctype_digit($id_to))
+	if(ctype_digit($id_from) && ctype_digit($id_to))  //on vérifié que les entrées sont au bon format sinon on refuse l'action
 	{
 		$car_interdits = array("'","\"",";","%","<",">"); 
 		$sujet_mod=str_replace($car_interdits, "", $sujet);
-		$corps_mod=str_replace($car_interdits, "", $corps);
+		$corps_mod=str_replace($car_interdits, "", $corps);                     // on crée une liste de caractères interdits puis on les remplace dans les chaines de caractère correspondantes pour éviter les injection de script
 
 		$mysqli=mysqli_connect(DB_HOST, DB_USER, DB_PASSWD,DB_NAME);
 		if ($mysqli->connect_error) {

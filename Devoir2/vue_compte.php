@@ -4,23 +4,24 @@ require_once('include.php');
 require_once('config/config.php');
 $now = time();
   $mytoken = bin2hex(random_bytes(128));
-  $_SESSION["mytoken"] = $mytoken;
+  $_SESSION["mytoken"] = $mytoken;              //token aléatoire généré et utilisé pour prévenir les attaques csrf
   
 ?>
 <?php
 if ($now > $_SESSION['expire']) {
             session_destroy();
             echo "Votre session à expiré <a href='index.php'>reconnectez vous ici</a>";
-        }
+        }//permet de détruire la session si celle-ci est ouverte depuis plus de 30 minutes sans action
 
-else if (isset($_SESSION["connected_user"]))
+else if (isset($_SESSION["connected_user"])) //on vérifie qu'une session est bien en cours avant d'afficher quoi que ce soit pour éviter une attaque par vol de session
 {
   $id=$_SESSION["connected_user"]["id_user"];
   function getMySqliConnection() {
     return new mysqli(DB_HOST, DB_USER, DB_PASSWD,DB_NAME);
   }
 
-  function get_solde($ids) {
+  function get_solde($ids)                          //update le solde de l'utilisateur dans la session car il ne s'update pas autrement il est initialisé a l'ouverture de la session
+  {
     $mysqli = getMySqliConnection();
 
     $solde = 0;

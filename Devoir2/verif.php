@@ -1,4 +1,5 @@
 <?php
+//page qui va chercher si l'utilisateur existe et créer sa session pour l'envoyer vers son compte si oui, sinon le renvoyer vers le login et incrémenter son nombre d'essais
 
 session_start();
 require_once('include.php');
@@ -43,29 +44,6 @@ if (!isset($login) || !isset($pwd) || $pwd == "" || $login == "" || !ctype_alnum
       
       $mysqli->close();
 	  
-	 /*
-		
-		$req="select id_user,profil_user,nom,prenom,numero_compte from users where login='$loginf' and mot_de_passe='$pwdf'";
-		if (!$result = $mysqli->query($req)) {
-			echo 'Erreur requête BDD ['.$req.'] (' . $mysqli->errno . ') '. $mysqli->error;
-		} 	
-		else {
-			$result=$mysqli->query($req);
-			$utilisateur = $result->fetch_assoc();
-			$result->free();
-			if (empty($utilisateur))
-			{
-				$url_redirect = "index.php";
-			}
-			else
-			{
-				$_SESSION["connected_user"] = $utilisateur;
-				$url_redirect = "vue_compte.php";
-			}
-			$mysqli->close();
-			
-		}
-		*/
 	}
 
 	}

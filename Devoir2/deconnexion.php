@@ -18,6 +18,6 @@ require_once('config/config.php');
 </html>
 
 <?php
-session_destroy();
+session_destroy();                          //on détruit la session puis on redirige sur la page de login
 header("Refresh:3; index.php");
 ?>
