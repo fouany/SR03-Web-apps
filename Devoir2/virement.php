@@ -12,15 +12,21 @@
 session_start();
 require_once('include.php');
 require_once('config/config.php');
+$now = time();
 
-if (isset($_SESSION["connected_user"]))
+if ($now > $_SESSION['expire']) {
+            session_destroy();
+            echo "Votre session à expiré <a href='index.php'>reconnectez vous ici</a>";
+        }//permet de détruire la session si celle-ci est ouverte depuis plus de 30 minutes sans action
+
+else if (isset($_SESSION["connected_user"])) //on vérifie qu'une session est bien en cours avant d'afficher quoi que ce soit pour éviter une attaque par vol de session
 {
 	$debiteur= $_REQUEST['numero_compte'];
 	$receveur=$_REQUEST['num_cpte_benef'];
 	$montant=$_REQUEST['montant'];
 	?>
 	<?php
-	if(ctype_digit($debiteur) && ctype_digit($receveur) && ctype_digit($montant))
+	if(ctype_digit($debiteur) && ctype_digit($receveur) && ctype_digit($montant)) //on vérifié que les entrées sont au bon format sinon on refuse l'action
 	{
 		if (!isset($_REQUEST['mytoken']) || $_REQUEST['mytoken'] != $_SESSION['mytoken']) {
 			  echo("<p>Erreur, une attaque csrf à été détectée vous allez être redirigé et l'incident sera consigné</p>");
@@ -29,7 +35,8 @@ if (isset($_SESSION["connected_user"]))
 		function getMySqliConnection() {
 			return new mysqli(DB_HOST, DB_USER, DB_PASSWD,DB_NAME);
 		}
-		function get_dest($num_cpte) {
+		function get_dest($num_cpte)   //fonction vérifiant si le numéro de compte entré correspond bien à un utilisateur avant d'effectuer le virement
+		{
 			$mysqli = getMySqliConnection();
 
 			$dest=0;
@@ -38,7 +45,7 @@ if (isset($_SESSION["connected_user"]))
 				echo 'Erreur connection BDD (' . $mysqli->connect_errno . ') '. $mysqli->connect_error;
 			} else {
 				//
-				$stmt = $mysqli->prepare("SELECT id_user from users WHERE numero_compte=?");  
+				$stmt = $mysqli->prepare("SELECT id_user from users WHERE numero_compte=?");   //requête paramétrée pour éviter les injections de code
 		$stmt->bind_param("i", $num_cpte); 
 		$stmt->execute();
 		$stmt->bind_result($id_user); 
@@ -51,24 +58,7 @@ if (isset($_SESSION["connected_user"]))
       
       $mysqli->close();
 			}
-	  //
-	  /*
-				$req="SELECT id_user from users WHERE numero_compte='$num_cpte'";
-				if (!$result = $mysqli->query($req)) {
-					echo 'Erreur requête BDD ['.$req.'] (' . $mysqli->errno . ') '. $mysqli->error;
-				} else {
-					$result=$mysqli->query($req);
-					$val=$result->fetch_assoc();
-					if(!$val){
-					}
-					else{
-						$dest=1;
-					}
 
-					$result->free();
-				}
-				$mysqli->close();
-				*/
 			
 
 			return $dest;
@@ -83,32 +73,19 @@ if (isset($_SESSION["connected_user"]))
 			}
 			else {
 				     
-      $stmt = $mysqli->prepare("update users set solde_compte=solde_compte+? where numero_compte=?");  
+      $stmt = $mysqli->prepare("update users set solde_compte=solde_compte+? where numero_compte=?");    //requête paramétrée pour éviter les injections de code
       $stmt->bind_param("ds", $montant, $receveur); 
       $stmt->execute(); 
       $stmt->close();
 
-      $stmt = $mysqli->prepare("update users set solde_compte=solde_compte-? where numero_compte=?");  
+      $stmt = $mysqli->prepare("update users set solde_compte=solde_compte-? where numero_compte=?");   //requête paramétrée pour éviter les injections de code
       $stmt->bind_param("ds", $montant, $debiteur); 
       $stmt->execute();
       $stmt->close();
   
       $mysqli->close();
   }
-					/*
-				$req1="update users set solde_compte=solde_compte+$montant where numero_compte='$receveur'";
-				$req2="update users set solde_compte=solde_compte-$montant where numero_compte='$debiteur'";
-				if (!$result = $mysqli->query($req1)) {
-					echo 'Erreur requête BDD ['.$req.'] (' . $mysqli->errno . ') '. $mysqli->error;
-				}
-				if (!$result = $mysqli->query($req2)) {
-					echo 'Erreur requête BDD ['.$req.'] (' . $mysqli->errno . ') '. $mysqli->error;
-				}
-				else
-				{
-					echo('Virement effectué');
-				}
-				*/
+
 
 
 			echo('Virement effectué');

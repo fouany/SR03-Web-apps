@@ -2,7 +2,14 @@
 session_start();
 require_once('include.php');
 require_once('config/config.php');
-if ((isset($_SESSION["connected_user"]))  && ($_SESSION["connected_user"]["profil_user"]=='EMPLOYE'))
+$now = time();
+
+if ($now > $_SESSION['expire']) {
+            session_destroy();
+            echo "Votre session à expiré <a href='index.php'>reconnectez vous ici</a>";
+        }//permet de détruire la session si celle-ci est ouverte depuis plus de 30 minutes sans action
+
+else if ((isset($_SESSION["connected_user"]))  && ($_SESSION["connected_user"]["profil_user"]=='EMPLOYE'))//on vérifie qu'une session est bien en cours avant d'afficher quoi que ce soit pour éviter une attaque par vol de session
 {
 	?>
 
