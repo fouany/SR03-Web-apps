@@ -18,6 +18,6 @@ require_once('config/config.php');
 </html>
 
 <?php
-unset($_SESSION["connected_user"]);
+session_destroy();
 header("Refresh:3; index.php");
 ?>

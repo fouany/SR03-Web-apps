@@ -14,12 +14,18 @@
 	session_start();
 	require_once('include.php');
 	require_once('config/config.php');
+	$now = time();
+	
+	if ($now > $_SESSION['expire']) {
+            session_destroy();
+            echo "Votre session à expiré <a href='index.php'>reconnectez vous ici</a>";
+        }
 
-	if (isset($_SESSION["connected_user"]))
+else if (isset($_SESSION["connected_user"]))
 	{
 		$statut=$_SESSION["connected_user"]["profil_user"];
 		$id_from=$_SESSION["connected_user"]["id_user"];
-		if(ctype_alpha($statut) && ctype_digit($id_from))
+		if(ctype_alpha($statut) && is_numeric($id_from))
 		{
 			?>
 

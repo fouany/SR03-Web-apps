@@ -12,8 +12,14 @@
 session_start();
 require_once('include.php');
 require_once('config/config.php');
+$now = time();
 
-if (isset($_SESSION["connected_user"]))
+if ($now > $_SESSION['expire']) {
+            session_destroy();
+            echo "Votre session à expiré <a href='index.php'>reconnectez vous ici</a>";
+        }
+
+else if (isset($_SESSION["connected_user"]))
 {
 	$debiteur= $_REQUEST['numero_compte'];
 	$receveur=$_REQUEST['num_cpte_benef'];

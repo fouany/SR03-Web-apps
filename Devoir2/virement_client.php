@@ -14,8 +14,14 @@
 	require_once('include.php');
 	require_once('config/config.php');
 	$mytoken=$_SESSION['mytoken'];
+	$now = time();
+	
+	if ($now > $_SESSION['expire']) {
+            session_destroy();
+            echo "Votre session à expiré <a href='index.php'>reconnectez vous ici</a>";
+        }
 
-	if (isset($_SESSION["connected_user"]))
+else if (isset($_SESSION["connected_user"]))
 	{
 		$num_cpte=$_SESSION["connected_user"]["numero_compte"];
 		?>

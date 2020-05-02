@@ -4,6 +4,7 @@ session_start();
 require_once('include.php');
 require_once('config/config.php');
 
+
 $pwd=$_REQUEST['mdp'];
 $login=$_REQUEST['login'];
 if (!isset($login) || !isset($pwd) || $pwd == "" || $login == "" || !ctype_alnum($pwd) || !ctype_alnum($login)) {
@@ -36,6 +37,7 @@ if (!isset($login) || !isset($pwd) || $pwd == "" || $login == "" || !ctype_alnum
       } 
 	  else {
          $url_redirect = "index.php";
+		 $_SESSION['nbr_essais']++;
       }
       $stmt->close();
       
