@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Connexion.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;TD4Ex1_2&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Controller</a> &gt; <span class="el_source">Connexion.java</span></div><h1>Connexion.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Controller;
+
+import Model.User;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Iterator;
+import java.util.Set;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+/**
+ *
+ * @author lounis
+ */
+@WebServlet(name = &quot;Connexion&quot;, urlPatterns = {&quot;/Connexion&quot;})
+<span class="nc" id="L25">public class Connexion extends HttpServlet {</span>
+
+    /**
+     * Processes requests for both HTTP &lt;code&gt;GET&lt;/code&gt; and &lt;code&gt;POST&lt;/code&gt;
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        // Vérifier si le login existe
+<span class="nc" id="L40">        Set&lt;Integer&gt; keys = UserManager.getUsersTable().keySet();</span>
+
+        //Obtaining iterator over set entries
+<span class="nc" id="L43">        Iterator&lt;Integer&gt; itr = keys.iterator();</span>
+<span class="nc" id="L44">        int trouve = -1;</span>
+<span class="nc bnc" id="L45" title="All 4 branches missed.">        while (itr.hasNext() &amp;&amp; trouve &lt; 0) {</span>
+<span class="nc" id="L46">            int index = (int) itr.next();</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">            if (UserManager.getUsersTable().get(index).getLogin().equalsIgnoreCase(request.getParameter(&quot;username&quot;))) {</span>
+<span class="nc" id="L48">                trouve = index;</span>
+<span class="nc" id="L49">                break;</span>
+            }
+<span class="nc" id="L51">        }</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        if (trouve &lt; 0) {</span>
+<span class="nc" id="L53">            response.setContentType(&quot;text/html;charset=UTF-8&quot;);</span>
+<span class="nc" id="L54">            try (PrintWriter out = response.getWriter()) {</span>
+                /* TODO output your page here. You may use following sample code. */
+<span class="nc" id="L56">                out.println(&quot;&lt;!DOCTYPE html&gt;&quot;);</span>
+<span class="nc" id="L57">                out.println(&quot;&lt;html&gt;&quot;);</span>
+<span class="nc" id="L58">                out.println(&quot;&lt;head&gt;&quot;);</span>
+<span class="nc" id="L59">                out.println(&quot;&lt;title&gt;Servlet Connexion&lt;/title&gt;&quot;);</span>
+<span class="nc" id="L60">                out.println(&quot;&lt;/head&gt;&quot;);</span>
+<span class="nc" id="L61">                out.println(&quot;&lt;body&gt;&quot;);</span>
+<span class="nc" id="L62">                out.println(&quot;&lt;h1&gt;Echec &lt;/h1&gt;&quot;);</span>
+<span class="nc" id="L63">                out.println(&quot;&lt;/body&gt;&quot;);</span>
+<span class="nc" id="L64">                out.println(&quot;&lt;/html&gt;&quot;);</span>
+<span class="nc bnc" id="L65" title="All 8 branches missed.">            }</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">        } else if (!UserManager.getUsersTable().get(trouve).getPwd().equals(request.getParameter(&quot;password&quot;))) {</span>
+<span class="nc" id="L67">            response.setContentType(&quot;text/html;charset=UTF-8&quot;);</span>
+<span class="nc" id="L68">            try (PrintWriter out = response.getWriter()) {</span>
+                /* TODO output your page here. You may use following sample code. */
+<span class="nc" id="L70">                out.println(&quot;&lt;!DOCTYPE html&gt;&quot;);</span>
+<span class="nc" id="L71">                out.println(&quot;&lt;html&gt;&quot;);</span>
+<span class="nc" id="L72">                out.println(&quot;&lt;head&gt;&quot;);</span>
+<span class="nc" id="L73">                out.println(&quot;&lt;title&gt;Servlet Connexion&lt;/title&gt;&quot;);</span>
+<span class="nc" id="L74">                out.println(&quot;&lt;/head&gt;&quot;);</span>
+<span class="nc" id="L75">                out.println(&quot;&lt;body&gt;&quot;);</span>
+<span class="nc" id="L76">                out.println(&quot;&lt;h1&gt;Echec :mot de passe érroné &lt;/h1&gt;&quot;);</span>
+<span class="nc" id="L77">                out.println(&quot;&lt;/body&gt;&quot;);</span>
+<span class="nc" id="L78">                out.println(&quot;&lt;/html&gt;&quot;);</span>
+
+<span class="nc bnc" id="L80" title="All 8 branches missed.">            }</span>
+        } else {
+<span class="nc" id="L82">            HttpSession session = request.getSession();</span>
+<span class="nc" id="L83">            session.setAttribute(&quot;login&quot;, UserManager.getUsersTable().get(trouve).getLogin());</span>
+<span class="nc" id="L84">            String role = UserManager.getUsersTable().get(trouve).getRole();</span>
+<span class="nc" id="L85">            session.setAttribute(&quot;role&quot;, role);</span>
+<span class="nc" id="L86">            response.setContentType(&quot;text/html;charset=UTF-8&quot;);</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">            if (&quot;admin&quot;.equals(role)) {</span>
+<span class="nc" id="L88">                try (PrintWriter out = response.getWriter()) {</span>
+<span class="nc" id="L89">                    out.println(&quot;&lt;!DOCTYPE html&gt;&quot;);</span>
+<span class="nc" id="L90">                    out.println(&quot;&lt;html&gt;&lt;head&gt;&lt;title&gt;Navigation Administrateur&lt;/title&gt;&lt;/head&gt;&quot;);</span>
+<span class="nc" id="L91">                    out.println(&quot;&lt;body&gt;&quot;);</span>
+<span class="nc" id="L92">                    out.println(&quot;&lt;h1&gt;Hello &quot; + session.getAttribute(&quot;login&quot;) + &quot;&lt;/h1&gt;&quot;);</span>
+<span class="nc" id="L93">                    out.println(&quot;&lt;nav&gt; &lt;ul&gt;&quot;);</span>
+<span class="nc" id="L94">                    out.println(&quot; &lt;li&gt;Connected&lt;/li&gt;&quot;);</span>
+<span class="nc" id="L95">                    out.println(&quot;&lt;li&gt;&lt;a href='NouveauUtilisateur.html'&gt;Créer un nouveau utilisateur&lt;/a&gt;&lt;/li&gt;&quot;);</span>
+<span class="nc" id="L96">                    out.println(&quot; &lt;li&gt;&lt;a href='UserManager'&gt;Afficher la liste des utilisateurs&lt;/a&gt;&lt;/li&gt;&quot;);</span>
+<span class="nc" id="L97">                    out.println(&quot; &lt;li&gt;&lt;a href='Deconnexion'&gt;Déconnecter&lt;/a&gt;&lt;/li&gt;&quot;);</span>
+<span class="nc" id="L98">                    out.println(&quot;&lt;/ul&gt;&quot;);</span>
+<span class="nc" id="L99">                    out.println(&quot;&lt;/nav&gt;&quot;);</span>
+<span class="nc" id="L100">                    out.println(&quot;&lt;/body&gt;&quot;);</span>
+<span class="nc" id="L101">                    out.println(&quot;&lt;/html&gt;&quot;);</span>
+<span class="nc bnc" id="L102" title="All 8 branches missed.">                }</span>
+
+            } else {
+<span class="nc" id="L105">                try (PrintWriter out = response.getWriter()) {</span>
+                    /* TODO output your page here. You may use following sample code. */
+<span class="nc" id="L107">                    out.println(&quot;&lt;!DOCTYPE html&gt;&quot;);</span>
+<span class="nc" id="L108">                    out.println(&quot;&lt;html&gt;&quot;);</span>
+<span class="nc" id="L109">                    out.println(&quot;&lt;head&gt;&quot;);</span>
+<span class="nc" id="L110">                    out.println(&quot;&lt;title&gt;Servlet Connexion&lt;/title&gt;&quot;);</span>
+<span class="nc" id="L111">                    out.println(&quot;&lt;/head&gt;&quot;);</span>
+<span class="nc" id="L112">                    out.println(&quot;&lt;body&gt;&quot;);</span>
+<span class="nc" id="L113">                    out.println(&quot;&lt;h1&gt;Succes : utilisateur non admin &lt;/h1&gt;&quot;);</span>
+<span class="nc" id="L114">                    out.println(&quot;&lt;/body&gt;&quot;);</span>
+<span class="nc" id="L115">                    out.println(&quot;&lt;/html&gt;&quot;);</span>
+<span class="nc bnc" id="L116" title="All 8 branches missed.">                }</span>
+
+            }
+
+        }
+<span class="nc" id="L121">    }</span>
+
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;HttpServlet methods. Click on the + sign on the left to edit the code.&quot;&gt;
+    /**
+     * Handles the HTTP &lt;code&gt;GET&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+<span class="nc" id="L135">        processRequest(request, response);</span>
+<span class="nc" id="L136">    }</span>
+
+    /**
+     * Handles the HTTP &lt;code&gt;POST&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+<span class="nc" id="L149">        processRequest(request, response);</span>
+<span class="nc" id="L150">    }</span>
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+<span class="nc" id="L159">        return &quot;Short description&quot;;</span>
+    }// &lt;/editor-fold&gt;
+
+    @Override
+    public void init() throws ServletException {
+<span class="nc" id="L164">        super.init(); //To change body of generated methods, choose Tools | Templates.</span>
+        //Créer le premier utilisateur de l'application pour pouvoir connecter et ajouter d'autres utilisateurs
+<span class="nc" id="L166">        int id = UserManager.getUsersTable().size();</span>
+<span class="nc" id="L167">        UserManager.getUsersTable().put(id, new User(&quot;utc&quot;, &quot;utc&quot;, &quot;lounis@utc&quot;, &quot;Mr&quot;, &quot;lounisah&quot;));</span>
+<span class="nc" id="L168">        UserManager.getUsersTable().get(id).setRole(&quot;admin&quot;);</span>
+<span class="nc" id="L169">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
