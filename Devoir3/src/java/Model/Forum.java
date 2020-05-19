@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -117,8 +118,23 @@ public class Forum extends ActiveRecordBase {
     }
 
     public void LoadMessages() {
+    	String select_query = "select * from `db_sr03`.`message` where `destination` = '" + id + "';";
+    	Connection conn = MyConnectionClass.getInstance();
+        Statement sql = null;
+        sql = conn.createStatement();
+        ResultSet res = sql.executeQuery(select_query);
+        if (res.next()) {
+        	
+        	Message message = new Message(res.getString("content"), new User(res.getInt("editor")));
+        	System.out.println(message);
+            messages.add(message);
+        	System.out.println(messages);
+
+        }
 
     }
+    
+
 
     public void addMessage() {
 

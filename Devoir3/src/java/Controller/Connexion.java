@@ -40,7 +40,7 @@ public class Connexion extends HttpServlet {
             throws ServletException, IOException {
 
         try {
-            // VÃ©rifier si le login existe
+            // Vérifier si le login existe
             User u = User.FindByloginAndPwd(request.getParameter("username"), request.getParameter("password"));
 
             if (u == null) {
@@ -53,7 +53,7 @@ public class Connexion extends HttpServlet {
                     out.println("<title>Servlet Connexion</title>");
                     out.println("</head>");
                     out.println("<body>");
-                    out.println("<h1>Echec :mot de passe ou login Ã©rronÃ© </h1>");
+                    out.println("<h1>Echec :mot de passe ou login érroné </h1>");
                     out.println("</body>");
                     out.println("</html>");
                 }
@@ -71,9 +71,9 @@ public class Connexion extends HttpServlet {
                         out.println("<h1>Hello " + session.getAttribute("login") + "</h1>");
                         out.println("<nav> <ul>");
                         out.println(" <li>Connected</li>");
-                        out.println("<li><a href='NouveauUtilisateur.html'>CrÃ©er un nouveau utilisateur</a></li>");
+                        out.println("<li><a href='NouveauUtilisateur.html'>Créer un nouveau utilisateur</a></li>");
                         out.println(" <li><a href='UserManager'>Afficher la liste des utilisateurs</a></li>");
-                        out.println(" <li><a href='Deconnexion'>DÃ©connecter</a></li>");
+                        out.println(" <li><a href='Deconnexion'>Déconnecter</a></li>");
                         out.println("</ul>");
                         out.println("</nav>");
                         out.println("</body>");
