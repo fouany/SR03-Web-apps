@@ -1,0 +1,42 @@
+body{
+	text-align: center;
+	background: #eee; /* fallback for old browsers */
+  	background: -webkit-linear-gradient(right, #eee, #eee);
+ 	background: -moz-linear-gradient(right, #stylesheet, #eee);
+ 	background: -o-linear-gradient(right, #eee, #eee);
+  	background: linear-gradient(to left, #eee, #eee);
+}
+
+.form-field, .form-fiche-client{
+	display: block;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: auto;
+    margin-right: auto;
+}
+
+p, h1, h2, a, .field, .fieldset{
+	text-align: center;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	display: block;
+}
+
+input{
+	margin-bottom: 20px;
+}
+
+.deconnexion{
+	margin-top: 20%;
+}
+
+.btn btn-primary{
+	text-align: center;
+	margin-left: auto;
+    margin-right: auto;
+}
+
+.special{
+	margin-bottom: 0;
+	margin-top: 15px;
+}
