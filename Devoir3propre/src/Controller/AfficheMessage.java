@@ -13,16 +13,16 @@ import javax.servlet.http.HttpServletResponse;
 import Model.Forum;
 
 /**
- * Servlet implementation class TestForum
+ * Servlet implementation class AfficheMessage
  */
-@WebServlet("/TestForum")
-public class TestForum extends HttpServlet {
+@WebServlet("/AfficheMessage")
+public class AfficheMessage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-   
-	/**
+       
+    /**
      * @see HttpServlet#HttpServlet()
      */
-    public TestForum() {
+    public AfficheMessage() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,7 +33,11 @@ public class TestForum extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		try {
-			request.setAttribute("forums", Forum.FindAll());
+			/*int id = (int) request.getAttribute("id");
+			request.setAttribute("forums", Forum.LoadMessages(id));
+*/
+			System.out.print(request.getParameterValues("id")[0]);
+			request.setAttribute("message", Forum.LoadMessages(Integer.parseInt(request.getParameterValues("id")[0])));
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -44,10 +48,9 @@ public class TestForum extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	    RequestDispatcher rd = request.getRequestDispatcher("Menu_utilisateur.jsp");
+	    RequestDispatcher rd = request.getRequestDispatcher("AfficheMessage.jsp");
 	    rd.forward(request, response);
 		response.getWriter().append("Served at: ").append(request.getContextPath());
-		
 	}
 
 	/**
@@ -57,5 +60,5 @@ public class TestForum extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-    
+
 }

@@ -19,7 +19,8 @@ import java.util.List;
  * @author lounis
  */
 public class Forum extends ActiveRecordBase {
-
+	
+	private int id;
     private String title;
     private String description;
     private List<Message> messages;
@@ -117,20 +118,27 @@ public class Forum extends ActiveRecordBase {
                 + "`owner`='" + owner.getId() + "', `description` = '"+description+"'   WHERE (`id` = '" + id + "');";
     }
 
-    public void LoadMessages() throws ClassNotFoundException, IOException, SQLException {
+    public static List<Message> LoadMessages(int id) throws ClassNotFoundException, IOException, SQLException {
         String select_query = "select * from db_sr03.message where destination = '" + id + "';";
         Connection conn = MyConnectionClass.getInstance();
         Statement sql = null;
         sql = conn.createStatement();
         ResultSet res = sql.executeQuery(select_query);
-        if (res.next()) {
+        List<Message> listMessages = new ArrayList<Message>();
+        while (res.next()) {
 
-            Message message = new Message(res.getString("content"), new User(res.getInt("editor")));
-            System.out.println(message);
-            messages.add(message);
-            System.out.println(messages);
+            Message message = new Message();
+            message.setContent(res.getString("content"));
+            message.setEditor(new User(res.getInt("editor")));
+            listMessages.add(message);
 
         }
+         for (int i = 0; i < listMessages.size(); i++) {
+        System.out.println(listMessages.get(i).getContent());
+        System.out.println(listMessages.get(i).getEditor());
+    }
+    
+        return listMessages;
 
     }
     
@@ -142,15 +150,16 @@ public class Forum extends ActiveRecordBase {
 
    
     public static List<Forum> FindAll() throws ClassNotFoundException, IOException, SQLException {
-        String select_query = "select * from db_sr03.forum;";
+        String select_query = "select * from `db_sr03`.`forum`;";
         Connection conn = MyConnectionClass.getInstance();
         Statement sql = null;
         sql = conn.createStatement();
         ResultSet res = sql.executeQuery(select_query);
         List<Forum> listForum = new ArrayList<Forum>();
 
-            if (res.next()) {
+            while (res.next()) {
                  Forum forum = new Forum();
+                 forum.setId(res.getInt(1));
                  forum.setTitle(res.getString(2));
                  forum.setOwner(new User(res.getInt(3))) ;
                  forum.setDescription(res.getString(4));
@@ -158,6 +167,10 @@ public class Forum extends ActiveRecordBase {
                  listForum.add(forum);
 
             }
+           /* for (int i = 0; i < listForum.size(); i++) {
+                System.out.println(listForum.get(i).getTitle());
+            }
+            */
             return listForum;
 
     }

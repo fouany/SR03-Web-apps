@@ -9,12 +9,12 @@
 <title>JSP Page</title>
 </head>
 <body>
-<% System.out.print("Hello"); %>
 <c:forEach items="${requestScope.forums}" var="forum">
-
 <h2>${forum.title}</h2>
-
+<h3>${forum.description}</h3>
+<h3>${forum.id}</h3>
+<a href="AfficheMessage?id=1">Accéder au forum</a>
+ 
 </c:forEach>
-<h2>${requestScope.forums}</h2>
 </body>
 </html>
