@@ -66,6 +66,8 @@ public class Connexion extends HttpServlet {
                 session.setAttribute("login", u.getLogin());
                 String role = u.getRole();
                 session.setAttribute("role", role);
+                session.setAttribute("user", u);
+               // System.out.print(session.getAttribute("user"));
                 response.setContentType("text/html;charset=UTF-8");
                 if ("admin".equalsIgnoreCase(role)) {
                     try (PrintWriter out = response.getWriter()) {

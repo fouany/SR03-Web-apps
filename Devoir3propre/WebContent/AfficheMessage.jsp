@@ -15,5 +15,10 @@
 <h3>${message.editor}</h3>
 </c:forEach>
 
+<form action="AddMessage">
+<textarea name="Text_message" ></textarea>
+<input type="submit" value="Envoyer le message">
+</form>
+
 </body>
 </html>

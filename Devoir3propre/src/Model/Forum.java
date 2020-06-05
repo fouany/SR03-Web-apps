@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 /**
  *
  * @author lounis
@@ -144,12 +145,33 @@ public class Forum extends ActiveRecordBase {
     
 
 
-    public void addMessage() {
-
+    public static Message addMessage(String content,User user,Forum forum) throws ClassNotFoundException, IOException, SQLException {
+    	 Message message = new Message();
+    	 message.setContent(content);
+    	 message.setEditor(user);
+    	 message.setDestination(forum);
+    	 System.out.println(forum);
+    	 message.save();
+    	 
+    	/* System.out.println(forum);
+    	 System.out.println(message);
+    	 String select_query="INSERT INTO `db_sr03`.`message` (`content`, `editor`, `destination`) "
+                 + "VALUES ('"+content+"', '"+message.getEditor().getId()+"', '1');";
+    	 //message._insert();
+    	 System.out.println(select_query);
+         Connection conn = MyConnectionClass.getInstance();
+         Statement sql = null;
+         sql = conn.createStatement();
+         int res = sql.executeUpdate(select_query);
+         */
+    	 
+         return message;
     }
 
    
-    public static List<Forum> FindAll() throws ClassNotFoundException, IOException, SQLException {
+
+
+	public static List<Forum> FindAll() throws ClassNotFoundException, IOException, SQLException {
         String select_query = "select * from `db_sr03`.`forum`;";
         Connection conn = MyConnectionClass.getInstance();
         Statement sql = null;
@@ -175,4 +197,9 @@ public class Forum extends ActiveRecordBase {
 
     }
 
+    @Override
+	public String toString() {
+		return "Forum [id=" + id + ", title=" + title + ", description=" + description + ", messages=" + messages
+				+ ", owner=" + owner + "]";
+	}
 }

@@ -83,7 +83,7 @@ public class Message extends ActiveRecordBase{
                 + "VALUES ('"+content+"', '"+editor.getId()+"', '"+destination.getId()+"');";
     }
 
-    @Override
+	@Override
     protected String _update() {
         return "update`db_sr03`.`message` set  `content`='"+content+"', "
                 + "`editor`='"+editor.getId()+"', `destination`='"+destination.getId()
@@ -102,4 +102,9 @@ public class Message extends ActiveRecordBase{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    @Override
+ 	public String toString() {
+ 		return "Message [content=" + content + ", datePublication=" + datePublication + ", editor=" + editor
+ 				+ ", destination=" + destination + "]";
+ 	}
 }

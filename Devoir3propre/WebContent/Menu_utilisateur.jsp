@@ -13,7 +13,7 @@
 <h2>${forum.title}</h2>
 <h3>${forum.description}</h3>
 <h3>${forum.id}</h3>
-<a href="AfficheMessage?id=1">Accéder au forum</a>
+<a href="AfficheMessage?id=${forum.id}">Accéder au forum</a>
  
 </c:forEach>
 </body>
