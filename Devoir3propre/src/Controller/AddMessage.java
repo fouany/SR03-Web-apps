@@ -44,8 +44,14 @@ public class AddMessage extends HttpServlet {
 			int forumId= (int) session.getAttribute("forumId");
 			System.out.println(forumId);
 			Forum forum= new Forum(forumId);
-			request.setAttribute("forums", Forum.addMessage(request.getParameter("Text_message"),u,forum));
+			Message message = new Message();
+			message.setEditor(u);
+			message.setContent(request.getParameter("Text_message"));
+			message.setDestination(forum);
+			//request.setAttribute("forums", Forum.addMessage(request.getParameter("Text_message"),u,forum));
+			forum.addMessage(message);
 			request.setAttribute("id", forumId);
+			forum.save();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

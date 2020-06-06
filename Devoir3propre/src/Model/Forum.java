@@ -73,6 +73,7 @@ public class Forum extends ActiveRecordBase {
             this.title = res.getString(2);
             this.owner = new User(res.getInt(3));
             this.description = res.getString(4);
+            this.messages = new ArrayList<Message>();
             _builtFromDB = true;
         }
     }
@@ -145,7 +146,7 @@ public class Forum extends ActiveRecordBase {
     
 
 
-    public static Message addMessage(String content,User user,Forum forum) throws ClassNotFoundException, IOException, SQLException {
+    /*public static Message addMessage(String content,User user,Forum forum) throws ClassNotFoundException, IOException, SQLException {
     	 Message message = new Message();
     	 message.setContent(content);
     	 message.setEditor(user);
@@ -163,11 +164,16 @@ public class Forum extends ActiveRecordBase {
          Statement sql = null;
          sql = conn.createStatement();
          int res = sql.executeUpdate(select_query);
-         */
+         
     	 
          return message;
-    }
+    } 
 
+*/
+    public void addMessage(Message message) {
+        this.messages.add(message);
+        message.setDestination(this);
+    }
    
 
 
@@ -202,4 +208,12 @@ public class Forum extends ActiveRecordBase {
 		return "Forum [id=" + id + ", title=" + title + ", description=" + description + ", messages=" + messages
 				+ ", owner=" + owner + "]";
 	}
+    @Override
+    public void save() throws SQLException, IOException, ClassNotFoundException {
+        //Lorsqu'on sauvegarde un forum on sauvegarde ses messages
+        super.save();
+        for(Message message : this.messages){
+            message.save();
+        }
+    }
 }
