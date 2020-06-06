@@ -15,14 +15,14 @@ import Model.Forum;
 /**
  * Servlet implementation class TestForum
  */
-@WebServlet("/TestForum")
-public class TestForum extends HttpServlet {
+@WebServlet("/ListeForum")
+public class ListeForum extends HttpServlet {
 	private static final long serialVersionUID = 1L;
    
 	/**
      * @see HttpServlet#HttpServlet()
      */
-    public TestForum() {
+    public ListeForum() {
         super();
         // TODO Auto-generated constructor stub
     }

@@ -1,4 +1,3 @@
-package Controller;
 
 
 import java.io.IOException;
@@ -12,21 +11,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import Model.Forum;
-import Model.Message;
 import Model.User;
 
 /**
- * Servlet implementation class AddMessage
+ * Servlet implementation class Subscribe
  */
-@WebServlet("/AddMessage")
-public class AddMessage extends HttpServlet {
+@WebServlet("/Subscribe")
+public class Subscribe extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AddMessage() {
+    public Subscribe() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -39,35 +36,16 @@ public class AddMessage extends HttpServlet {
 		HttpSession session = request.getSession();
 		System.out.println(session);
 		User u =(User) session.getAttribute("user");
-		System.out.println(session.getAttribute("user"));
 		int forumId= (int) session.getAttribute("forumId");
 		try {
-			
-			System.out.println(forumId);
-			Forum forum= new Forum(forumId);
-			System.out.println(forum.getId());
-			Message message = new Message();
-			message.setEditor(u);
-			message.setContent(request.getParameter("Text_message"));
-			//request.setAttribute("forums", Forum.addMessage(request.getParameter("Text_message"),u,forum));
-			forum.addMessage(message);
-			request.setAttribute("id", forumId);
-			System.out.println(forum.getId());
-			forum.save();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
+			u.addForumSubscription(forumId);
+		} catch (ClassNotFoundException | IOException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(forumId);
 	    RequestDispatcher rd = request.getRequestDispatcher("AfficheMessage?id="+forumId);
 	    rd.forward(request, response);
-		
+
 	}
 
 	/**

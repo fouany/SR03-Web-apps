@@ -20,5 +20,9 @@
 <input type="submit" value="Envoyer le message">
 </form>
 
+</br>
+<form action="Subscribe">
+<input type="submit" value="S'abonner">
+</form>
 </body>
 </html>

@@ -240,11 +240,58 @@ public class User extends ActiveRecordBase {
         return null;
     }
 
-    public void LoadForumSubscriptions() {
+    public static List<Forum> LoadForumSubscriptions(User user)
+			throws ClassNotFoundException, IOException, SQLException {
+		String select_query = "select * from `db_sr03`.`subscriptions` WHERE id_user=" + user.getId() + ";";
+		Connection conn = MyConnectionClass.getInstance();
+		Statement sql = null;
+		sql = conn.createStatement();
+		ResultSet res = sql.executeQuery(select_query);
+		List<Integer> listId = new ArrayList<Integer>();
+		List<Forum> listForum = new ArrayList<Forum>();
+		while (res.next()) {
+			listId.add(res.getInt(2));
+			System.out.println(res.getInt(2));
+		}
 
-    }
+		for (int i = 0; i < listId.size(); i++) {
+			String select_query2 = "select * from `db_sr03`.`forum` WHERE id=" + listId.get(i) + ";";
+			Connection conn2 = MyConnectionClass.getInstance();
+			Statement sql2 = null;
+			sql2 = conn2.createStatement();
+			ResultSet res2 = sql.executeQuery(select_query2);
 
-    public void addForumSubscription() {
+			if (res2.next()) {
+				Forum forum = new Forum();
+				forum.setId(res2.getInt(1));
+				forum.setTitle(res2.getString(2));
+				forum.setOwner(new User(res2.getInt(3)));
+				forum.setDescription(res2.getString(4));
+				forum._builtFromDB = true;
+				listForum.add(forum);
+
+			}
+		}
+
+		/*
+		 * for (int i = 0; i < listForum.size(); i++) {
+		 * System.out.println(listForum.get(i).getTitle()); }
+		 */
+		return listForum;
+
+	}
+
+    public void addForumSubscription(int idForum) throws ClassNotFoundException, IOException, SQLException {
+    	  Connection conn = MyConnectionClass.getInstance();
+          String select_query = "insert into `db_sr03`.`subscriptions` (id_user,id_forum) values ("+this.id+","+idForum+") ;";
+          Statement statement = conn.createStatement();
+          statement.executeUpdate(select_query);
+          /*
+          sql = conn.prepareStatement(select_query);
+          sql.setInt(1, this.id);
+          sql.setInt(2, idForum);
+          sql.executeUpdate(select_query);
+          */
 
     }
 

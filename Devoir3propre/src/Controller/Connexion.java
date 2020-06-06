@@ -80,7 +80,8 @@ public class Connexion extends HttpServlet {
                         out.println("<li><a href='NouveauUtilisateur.html'>Créer un nouveau utilisateur</a></li>");
                         out.println(" <li><a href='UserManager'>Afficher la liste des utilisateurs</a></li>");
                         out.println(" <li><a href='Deconnexion'>Déconnecter</a></li>");
-                        out.println(" <li><a href='TestForum'>Menu</a></li>");
+                        out.println(" <li><a href='ListeForum'>Liste tous les forums</a></li>");
+                        out.println(" <li><a href='ForumAbo'>Liste les forums abonnés</a></li>");
                         out.println("</ul>");
                         out.println("</nav>");
                         out.println("</body>");
