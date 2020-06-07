@@ -65,11 +65,12 @@ public class Forum extends ActiveRecordBase {
 
 	public Forum(int id) throws SQLException, IOException, ClassNotFoundException {
 		Connection conn = MyConnectionClass.getInstance();
+		
 		String select_query = "select * from `db_sr03`.`forum` where `id` = '" + id + "';";
-		System.out.println(select_query);
 		Statement sql = null;
 		sql = conn.createStatement();
 		ResultSet res = sql.executeQuery(select_query);
+		
 		if (res.next()) {
 			this.setId(id);
 			this.title = res.getString(2);
@@ -100,7 +101,6 @@ public class Forum extends ActiveRecordBase {
 		if ("all".equalsIgnoreCase(choix)) {
 			return this.messages;
 		}
-		// ToDo il faut traiter d'autres choix.
 		return null;
 	}
 
@@ -146,23 +146,6 @@ public class Forum extends ActiveRecordBase {
 
 	}
 
-	/*
-	 * public static Message addMessage(String content,User user,Forum forum) throws
-	 * ClassNotFoundException, IOException, SQLException { Message message = new
-	 * Message(); message.setContent(content); message.setEditor(user);
-	 * message.setDestination(forum); System.out.println(forum); message.save();
-	 * 
-	 * /* System.out.println(forum); System.out.println(message); String
-	 * select_query="INSERT INTO `db_sr03`.`message` (`content`, `editor`, `destination`) "
-	 * + "VALUES ('"+content+"', '"+message.getEditor().getId()+"', '1');";
-	 * //message._insert(); System.out.println(select_query); Connection conn =
-	 * MyConnectionClass.getInstance(); Statement sql = null; sql =
-	 * conn.createStatement(); int res = sql.executeUpdate(select_query);
-	 * 
-	 * 
-	 * return message; }
-	 * 
-	 */
 	public void addMessage(Message message) {
 		this.messages.add(message);
 		message.setDestination(this);
@@ -186,15 +169,10 @@ public class Forum extends ActiveRecordBase {
 			listForum.add(forum);
 
 		}
-		/*
-		 * for (int i = 0; i < listForum.size(); i++) {
-		 * System.out.println(listForum.get(i).getTitle()); }
-		 */
 		return listForum;
 
 	}
 
-	
 
 	@Override
 	public String toString() {
