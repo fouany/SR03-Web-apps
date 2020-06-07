@@ -37,21 +37,17 @@ public class AddForum extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
-		System.out.println(session);
+
 		User u =(User) session.getAttribute("user");
-		System.out.println(session.getAttribute("user"));
+
 		try {
 			Forum forum= new Forum(request.getParameter("titre"),request.getParameter("description"),u);
 			forum.save();
-			
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	    RequestDispatcher rd = request.getRequestDispatcher("Menu_Admin.jsp");
