@@ -19,6 +19,7 @@ import Model.User;
  */
 @WebServlet("/ForumAbo")
 public class ForumAbo extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -26,37 +27,28 @@ public class ForumAbo extends HttpServlet {
 	 */
 	public ForumAbo() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		System.out.println(session);
 		User u = (User) session.getAttribute("user");
-		System.out.println(u);
+		
 		try {
 			request.setAttribute("forums", u.LoadForumSubscriptions(u));
 			request.setAttribute("abonne", '1');
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		RequestDispatcher rd = request.getRequestDispatcher("AfficheForum.jsp");
 		rd.forward(request, response);
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-
 	}
 
 	/**
