@@ -20,7 +20,7 @@ import java.util.Objects;
  * @author lounis
  */
 public class User extends ActiveRecordBase {
-
+	
     private String lastName;
     private String firstName;
     private String login; //mail adress
@@ -211,7 +211,6 @@ public class User extends ActiveRecordBase {
 
     public static List<User> FindAll() throws IOException, ClassNotFoundException, SQLException {
         List <User>  listUser = new ArrayList<User>() ;
-        
         Connection conn = MyConnectionClass.getInstance();
         Statement sql = conn.createStatement();
         ResultSet res = sql.executeQuery(_query);
@@ -219,7 +218,6 @@ public class User extends ActiveRecordBase {
             User newUser= new User (res);
             listUser.add(newUser);
         }
-
         return listUser;
     }
     
@@ -295,8 +293,12 @@ public class User extends ActiveRecordBase {
 
     }
 
-    public void updateForumSubscriptions() {
-
+    public void deleteForumSubscriptions(int idforum) throws SQLException, ClassNotFoundException, IOException {
+    	
+    	 Connection conn = MyConnectionClass.getInstance();
+         String select_query = "delete from `db_sr03`.`subscriptions` where id_forum="+idforum+" ;";
+         Statement statement = conn.createStatement();
+         statement.executeUpdate(select_query);
     }
 
 }

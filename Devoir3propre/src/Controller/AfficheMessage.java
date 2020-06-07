@@ -40,6 +40,7 @@ public class AfficheMessage extends HttpServlet {
 			session.setAttribute("forumId", Integer.parseInt(request.getParameterValues("id")[0]));
 			System.out.print(request.getParameterValues("id")[0]);
 			request.setAttribute("message", Forum.LoadMessages(Integer.parseInt(request.getParameterValues("id")[0])));
+			request.setAttribute("abonne", request.getParameter("abonne"));
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -107,13 +107,13 @@ public class Forum extends ActiveRecordBase {
 	// DB access method
 	@Override
 	protected String _delete() {
-		return "DELETE FROM `db_sr03`.`forum` WHERE (`id` = '" + id + "');";
+		return "DELETE FROM `db_sr03`.`forum` WHERE (`id` = '" +this.getId() + "');";
 	}
 
 	@Override
 	protected String _insert() {
 		return "INSERT INTO `db_sr03`.`forum` (`title`, `owner`,`description`) " + "VALUES ('" + title + "', '"
-				+ owner.getId() + "',`description` = '" + description + "');";
+				+ owner.getId() + "','" + description + "');";
 	}
 
 	@Override

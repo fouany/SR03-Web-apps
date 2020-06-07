@@ -11,18 +11,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import Model.Forum;
+import Model.User;
 
 /**
- * Servlet implementation class TestForum
+ * Servlet implementation class ListeUser
  */
-@WebServlet("/ListeForum")
-public class ListeForum extends HttpServlet {
+@WebServlet("/ListeUser")
+public class ListeUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-   
-	/**
+       
+    /**
      * @see HttpServlet#HttpServlet()
      */
-    public ListeForum() {
+    public ListeUser() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,9 +34,7 @@ public class ListeForum extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		try {
-			request.setAttribute("forums", Forum.FindAll());
-			request.setAttribute("abonne", '0');
-			request.setAttribute("isadmin", request.getParameter("isadmin"));
+			request.setAttribute("user", User.FindAll());
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -46,7 +45,7 @@ public class ListeForum extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	    RequestDispatcher rd = request.getRequestDispatcher("AfficheForum.jsp");
+	    RequestDispatcher rd = request.getRequestDispatcher("AfficheUsers.jsp");
 	    rd.forward(request, response);
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		
@@ -59,5 +58,5 @@ public class ListeForum extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-    
+
 }

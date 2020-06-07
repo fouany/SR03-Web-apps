@@ -8,11 +8,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-<a href='AddForum.jsp'>Ajouter un forum</a>
-<br>
-<a href='ListeForum?isadmin=1'>Supprimer un forum</a>
-<br>
-<a href='ListeUser'>Supprimer un utilisateur</a>
-
+	<form action="AddForum">
+		<input type='text' name="titre">Titre</input>
+		<input type='text' name="description">Description</input>
+		<input type="submit" value="Créer le forum">
+	</form>
 </body>
 </html>

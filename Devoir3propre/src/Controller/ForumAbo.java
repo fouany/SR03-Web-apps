@@ -1,3 +1,4 @@
+package Controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -38,8 +39,10 @@ public class ForumAbo extends HttpServlet {
 		HttpSession session = request.getSession();
 		System.out.println(session);
 		User u = (User) session.getAttribute("user");
+		System.out.println(u);
 		try {
 			request.setAttribute("forums", u.LoadForumSubscriptions(u));
+			request.setAttribute("abonne", '1');
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -50,7 +53,7 @@ public class ForumAbo extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		RequestDispatcher rd = request.getRequestDispatcher("Menu_utilisateur.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("AfficheForum.jsp");
 		rd.forward(request, response);
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 

@@ -79,17 +79,14 @@ public class Connexion extends HttpServlet {
                         out.println(" <li>Connected</li>");
                         out.println("<li><a href='NouveauUtilisateur.html'>Créer un nouveau utilisateur</a></li>");
                         out.println(" <li><a href='UserManager'>Afficher la liste des utilisateurs</a></li>");
-                        out.println(" <li><a href='Deconnexion'>Déconnecter</a></li>");
                         out.println(" <li><a href='ListeForum'>Liste tous les forums</a></li>");
                         out.println(" <li><a href='ForumAbo'>Liste les forums abonnés</a></li>");
+                        out.println(" <li><a href='Menu_Admin'>Menu admninistrateur</a></li>");
+                        out.println(" <li><a href='Deconnexion'>Déconnecter</a></li>");
                         out.println("</ul>");
                         out.println("</nav>");
                         out.println("</body>");
                         out.println("</html>");
-                        /*request.setAttribute("forums", Forum.FindAll());
-                        RequestDispatcher rd = request.getRequestDispatcher("Menu_utilisateur.jsp");
-                        rd.forward(request, response);
-                        */
                     }
 
 
@@ -103,6 +100,9 @@ public class Connexion extends HttpServlet {
                         out.println("</head>");
                         out.println("<body>");
                         out.println("<h1>Succes : utilisateur non admin </h1>");
+                        out.println(" <li><a href='ListeForum'>Liste tous les forums</a></li>");
+                        out.println(" <li><a href='ForumAbo'>Liste les forums abonnés</a></li>");
+                        out.println(" <li><a href='Deconnexion'>Déconnecter</a></li>");
                         out.println("</body>");
                         out.println("</html>");
                     }

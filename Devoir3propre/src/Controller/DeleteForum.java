@@ -13,16 +13,16 @@ import javax.servlet.http.HttpServletResponse;
 import Model.Forum;
 
 /**
- * Servlet implementation class TestForum
+ * Servlet implementation class DeleteForum
  */
-@WebServlet("/ListeForum")
-public class ListeForum extends HttpServlet {
+@WebServlet("/DeleteForum")
+public class DeleteForum extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-   
-	/**
+       
+    /**
      * @see HttpServlet#HttpServlet()
      */
-    public ListeForum() {
+    public DeleteForum() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,23 +33,20 @@ public class ListeForum extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		try {
-			request.setAttribute("forums", Forum.FindAll());
-			request.setAttribute("abonne", '0');
-			request.setAttribute("isadmin", request.getParameter("isadmin"));
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
+			int forumId= Integer.parseInt(request.getParameter("id"));
+			System.out.println(forumId);
+			//int forumId2= Integer.parseInt(request.getAttribute("id"));
+			//System.out.println(forumId2);
+			Forum forum= new Forum(forumId);
+			System.out.println(forum.getId());
+			forum.delete();
+		} catch (NumberFormatException | ClassNotFoundException | SQLException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	    RequestDispatcher rd = request.getRequestDispatcher("AfficheForum.jsp");
-	    rd.forward(request, response);
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-		
+		 RequestDispatcher rd = request.getRequestDispatcher("Menu_Admin.jsp");
+		    rd.forward(request, response);
+			response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
@@ -59,5 +56,5 @@ public class ListeForum extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-    
+
 }
