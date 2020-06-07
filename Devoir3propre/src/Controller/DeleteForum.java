@@ -17,6 +17,7 @@ import Model.Forum;
  */
 @WebServlet("/DeleteForum")
 public class DeleteForum extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -24,29 +25,22 @@ public class DeleteForum extends HttpServlet {
      */
     public DeleteForum() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		try {
 			int forumId= Integer.parseInt(request.getParameter("id"));
-			System.out.println(forumId);
-			//int forumId2= Integer.parseInt(request.getAttribute("id"));
-			//System.out.println(forumId2);
 			Forum forum= new Forum(forumId);
-			System.out.println(forum.getId());
 			forum.delete();
 		} catch (NumberFormatException | ClassNotFoundException | SQLException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		 RequestDispatcher rd = request.getRequestDispatcher("Menu_Admin.jsp");
-		    rd.forward(request, response);
-			response.getWriter().append("Served at: ").append(request.getContextPath());
+		 rd.forward(request, response);
+		 response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
