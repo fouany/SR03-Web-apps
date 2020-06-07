@@ -41,8 +41,8 @@ public class AddForum extends HttpServlet {
 		User u =(User) session.getAttribute("user");
 
 		try {
-			Forum forum= new Forum(request.getParameter("titre"),request.getParameter("description"),u);
-			forum.save();
+			Forum forum= new Forum(request.getParameter("titre"), request.getParameter("description"), u);
+			forum.save(); 
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
