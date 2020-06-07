@@ -77,7 +77,6 @@ public class User extends ActiveRecordBase {
             this.role = Role.values()[res.getBoolean("is_admin") ? 1 : 0];
             _builtFromDB = true;
         }
-
     }
 
     public void setLogin(String login) {
@@ -270,13 +269,7 @@ public class User extends ActiveRecordBase {
 
 			}
 		}
-
-		/*
-		 * for (int i = 0; i < listForum.size(); i++) {
-		 * System.out.println(listForum.get(i).getTitle()); }
-		 */
 		return listForum;
-
 	}
 
     public void addForumSubscription(int idForum) throws ClassNotFoundException, IOException, SQLException {
@@ -284,17 +277,9 @@ public class User extends ActiveRecordBase {
           String select_query = "insert into `db_sr03`.`subscriptions` (id_user,id_forum) values ("+this.id+","+idForum+") ;";
           Statement statement = conn.createStatement();
           statement.executeUpdate(select_query);
-          /*
-          sql = conn.prepareStatement(select_query);
-          sql.setInt(1, this.id);
-          sql.setInt(2, idForum);
-          sql.executeUpdate(select_query);
-          */
-
     }
 
     public void deleteForumSubscriptions(int idforum) throws SQLException, ClassNotFoundException, IOException {
-    	
     	 Connection conn = MyConnectionClass.getInstance();
          String select_query = "delete from `db_sr03`.`subscriptions` where id_forum="+idforum+" ;";
          Statement statement = conn.createStatement();
