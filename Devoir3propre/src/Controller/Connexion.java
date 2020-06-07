@@ -43,9 +43,8 @@ public class Connexion extends HttpServlet {
             throws ServletException, IOException {
 
         try {
-            // Vérifier si le login existe
+            // VÃ©rifier si le login existe
             User u = User.FindByloginAndPwd(request.getParameter("username"), request.getParameter("password"));
-
 
             if (u == null) {
                 response.setContentType("text/html;charset=UTF-8");
@@ -57,18 +56,19 @@ public class Connexion extends HttpServlet {
                     out.println("<title>Servlet Connexion</title>");
                     out.println("</head>");
                     out.println("<body>");
-                    out.println("<h1>Echec :mot de passe ou login érroné </h1>");
+                    out.println("<h1>Echec :mot de passe ou login rron </h1>");
                     out.println("</body>");
                     out.println("</html>");
                 }
             } else {
                 HttpSession session = request.getSession();
                 session.setAttribute("login", u.getLogin());
+                
                 String role = u.getRole();
                 session.setAttribute("role", role);
                 session.setAttribute("user", u);
-               // System.out.print(session.getAttribute("user"));
                 response.setContentType("text/html;charset=UTF-8");
+                
                 if ("admin".equalsIgnoreCase(role)) {
                     try (PrintWriter out = response.getWriter()) {
                         out.println("<!DOCTYPE html>");
@@ -77,12 +77,12 @@ public class Connexion extends HttpServlet {
                         out.println("<h1>Hello " + session.getAttribute("login") + "</h1>");
                         out.println("<nav> <ul>");
                         out.println(" <li>Connected</li>");
-                        out.println("<li><a href='NouveauUtilisateur.html'>Créer un nouveau utilisateur</a></li>");
+                        out.println("<li><a href='NouveauUtilisateur.html'>Crer un nouveau utilisateur</a></li>");
                         out.println(" <li><a href='UserManager'>Afficher la liste des utilisateurs</a></li>");
                         out.println(" <li><a href='ListeForum'>Liste tous les forums</a></li>");
-                        out.println(" <li><a href='ForumAbo'>Liste les forums abonnés</a></li>");
+                        out.println(" <li><a href='ForumAbo'>Liste les forums abonns</a></li>");
                         out.println(" <li><a href='Menu_Admin'>Menu admninistrateur</a></li>");
-                        out.println(" <li><a href='Deconnexion'>Déconnecter</a></li>");
+                        out.println(" <li><a href='Deconnexion'>Dconnecter</a></li>");
                         out.println("</ul>");
                         out.println("</nav>");
                         out.println("</body>");
@@ -101,14 +101,12 @@ public class Connexion extends HttpServlet {
                         out.println("<body>");
                         out.println("<h1>Succes : utilisateur non admin </h1>");
                         out.println(" <li><a href='ListeForum'>Liste tous les forums</a></li>");
-                        out.println(" <li><a href='ForumAbo'>Liste les forums abonnés</a></li>");
-                        out.println(" <li><a href='Deconnexion'>Déconnecter</a></li>");
+                        out.println(" <li><a href='ForumAbo'>Liste les forums abonns</a></li>");
+                        out.println(" <li><a href='Deconnexion'>Dconnecter</a></li>");
                         out.println("</body>");
                         out.println("</html>");
                     }
-
                 }
-
             }
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
