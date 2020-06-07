@@ -18,6 +18,7 @@ import Model.User;
  */
 @WebServlet("/DeleteUser")
 public class DeleteUser extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -25,32 +26,25 @@ public class DeleteUser extends HttpServlet {
      */
     public DeleteUser() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		try {
 			String lastName= request.getParameter("lastName");
 			String firstName= request.getParameter("firstName");
 			int id= Integer.parseInt(request.getParameter("id"));
-			System.out.println(id);
+		
 			User user= new User(id);
-			System.out.println(user);
-			/*user=user.FindByLastAndFirstName("firstName", "lastName");
-			System.out.println(user);
-			*/
 			user.delete();
 		} catch (NumberFormatException | ClassNotFoundException | SQLException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		 RequestDispatcher rd = request.getRequestDispatcher("Menu_Admin.jsp");
-		    rd.forward(request, response);
-			response.getWriter().append("Served at: ").append(request.getContextPath());
+		 rd.forward(request, response);
+		 response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
