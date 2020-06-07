@@ -1,15 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>AfficheMessage</title>
+<title>Affiche Message</title>
 </head>
 <body>
-
-
 	<c:forEach items="${requestScope.message}" var="message">
 		<h2>${message.content}</h2>
 		<h3>${message.editor}</h3>
@@ -23,7 +21,7 @@
 	<c:choose>
 		<c:when test="${requestScope.abonne=='1'}">
 			<form action="UnSubscribe">
-				<input type="submit" value="Se désabonner">
+				<input type="submit" value="Se dÃ©sabonner">
 			</form>
 			<br />
 		</c:when>
