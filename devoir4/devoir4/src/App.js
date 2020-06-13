@@ -1,6 +1,8 @@
 import React from 'react';
 import './App.css';
 import Test from './components/Test.js';
+import Calendar from './components/Calendar.js';
+
 
 
 class App extends React.Component {
@@ -37,10 +39,15 @@ class App extends React.Component {
 
   render() {
     const listehtml = this.getuvliste();
-
-    return <div>
-      <Test uvs={this.state.uvs}/>
-      {listehtml}</div>;
+    console.log(this.state.uvs);
+    //return <Calendar/>;
+      return <div>
+          <Calendar uvs={this.state.uvs}/>
+          {listehtml}</div>;
+   // return <Calendar uvs={listehtml}/>;
+    // return <div>
+    //   <Test uvs={this.state.uvs}/>
+    //   {listehtml}</div>;
   }
 
   getuvliste() {
@@ -65,4 +72,7 @@ class App extends React.Component {
     }
   }
 }
+
+
+
 export default App;
