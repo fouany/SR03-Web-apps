@@ -13,8 +13,11 @@ const days = {
     "vendredi": '2018-02-27T'
 };
 
-class Calendar extends Component {
+const colors = {
 
+};
+
+class Calendar extends Component {
 
     getInformation(stringify, day) {
         var uvsByDay = [];
@@ -34,8 +37,8 @@ class Calendar extends Component {
         const uvsFormatees = [];
         for (let i = 0; i < uvsByDay.length; i++) {
             const coursI = {
-                name: uvsByDay[i].uv + "\n" + uvsByDay[i].room,
-                type: 'custom',
+                name: uvsByDay[i].uv,
+                info: uvsByDay[i].room + " " + uvsByDay[i].type + " " + uvsByDay[i].group,
                 startTime: moment(day + uvsByDay[i].begin),
                 endTime: moment(day + uvsByDay[i].end)
             }
@@ -44,11 +47,27 @@ class Calendar extends Component {
         return uvsFormatees;
     }
 
+    renderEvent(event, defaultAttributes, styles) {
+        return (
+            <div {...defaultAttributes}
+                 title={event.name}
+                 key={event.id}>
+        <span className={styles.event_info}>
+          [ { event.name }] <br/>
+            {event.info}
+        </span>
+                <span className={styles.event_info}>
+          { event.startTime.format('HH:mm') } - { event.endTime.format('HH:mm') }
+        </span>
+            </div>
+        )
+    }
+
     render() {
+
         if (this.props.uvs.length) {
             let json = JSON.stringify(this.props.uvs);
-            // console.log("JSON : ", json);
-            // console.log("JSON attribute : ", json["uv"]);
+
             const stringify = JSON.parse(json);
 
             const coursLundi = this.getInformation(stringify, "LUNDI");
@@ -56,7 +75,6 @@ class Calendar extends Component {
             let coursMercredi = this.getInformation(stringify, "MERCREDI");
             let coursJeudi = this.getInformation(stringify, "JEUDI");
             let coursVendredi = this.getInformation(stringify, "VENDREDI");
-
 
             this.state = {
                 events: {
@@ -68,19 +86,7 @@ class Calendar extends Component {
                 }
             };
 
-            // this.state = {
-            //     events: {
-            //         monday: [
-            //             {
-            //                 name: coursLundi[0].uv + "\n" + coursLundi[0].room,
-            //                 type: 'custom',
-            //                 startTime: moment(days.lundi + coursLundi[0].begin),
-            //                 endTime: moment(days.lundi + coursLundi[0].end)
-            //             }
-            //         ]
-            //     }
-            // };
-            return <Timetable events={this.state.events}/>
+            return <Timetable events={this.state.events} hoursInterval={[7, 21]} renderEvent={this.renderEvent}/>
         }
 
         this.state = {
@@ -95,22 +101,11 @@ class Calendar extends Component {
                 ]
             }
         };
-        // console.log(this.props.uvs);
-        //console.log("stringify", stringify);
 
-
-        // var obj = '[{"availability_id":"109465","date":"2017-02-21","price":"430000"},{"availability_id":"109466","date":"2017-02-22","price":"50000000"},{"availability_id":"109467","date":"2017-02-23","price":"6666666666"}]';
-        // var stringify = JSON.parse(obj);
-        // for (var i = 0; i < stringify.length; i++) {
-        //     console.log(stringify[i]['price']);
-        // }
-        //console.log(this.state.uvs.events[0]);
-        //this.setState({events : this.props.uvs});
         return <Timetable events={this.state.events}/>
     }
 
     // TODO : check variables
-    // TODO : salle dans propriété à part
 }
 
 export default Calendar;
