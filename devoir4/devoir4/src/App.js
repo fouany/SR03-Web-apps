@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import Test from './components/Test.js';
 import Calendar from './components/Calendar.js';
 
 
@@ -18,7 +17,6 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        //id = 'aherkens';
         fetch('https://cors-anywhere.herokuapp.com/https://webapplis.utc.fr/Edt_ent_rest/myedt/result/?login=' + this.state.login)
             .then(res => res.json())
             .then(
@@ -39,19 +37,27 @@ class App extends React.Component {
     }
 
     render() {
-        //const listehtml = this.getuvliste();
-        //console.log(this.state.uvs);
-
-        if (this.state.isLoginSubmitted) {
-            return <Calendar uvs={this.state.uvs}/>
+        console.log(this.state.uvs);
+        if (this.state.uvs.length === 0) {
+           return (
+                   <div>
+                       <form>
+                           <label> Identifiant UTC : </label>
+                           <input type="text" name="login" onChange={e => this.updateLogin(e)}/>
+                           <button type="submit" value="Submit" onClick={(e) => this.changeIsLoginSubmitted(e)}>Afficher</button>
+                       </form>
+                       <p> Veuillez renseigner un identifiant UTC valide</p>
+                   </div>
+               );
         } else {
             return (
                 <div>
                     <form>
-                        <label> Identifiant UTC: </label>
+                        <label> Identifiant UTC : </label>
                         <input type="text" name="login" onChange={e => this.updateLogin(e)}/>
                         <button type="submit" value="Submit" onClick={(e) => this.changeIsLoginSubmitted(e)}>Afficher</button>
                     </form>
+                    <Calendar uvs={this.state.uvs}/>
                 </div>
             )
         }
@@ -67,11 +73,10 @@ class App extends React.Component {
     changeIsLoginSubmitted = (e) => {
         e.preventDefault();
         console.log("before : ", this.state.login);
-        //console.log("target : ", e.target.value);
-
         this.setState({ isLoginSubmitted: true});
         console.log("after : ", this.state.login);
         this.componentDidMount();
+        return <Calendar uvs={this.state.uvs}/>;
     };
 
     getuvliste() {

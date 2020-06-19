@@ -13,17 +13,29 @@ const days = {
     "vendredi": '2018-02-27T'
 };
 
-const colors = {
+var colorUv = {};
 
-};
+function randomColor(){
+    var x = Math.round(0xffffff * Math.random()).toString(16);
+    var y = (6 - x.length);
+    var z = "000000";
+    var z1 = z.substring(0, y);
+    return "#" +z1 + x;
+}
+
+function chooseColor(event) {
+    if (colorUv[event.name]) {
+        return colorUv[event.name];
+    } else {
+        return colorUv[event.name] = randomColor();
+    }
+}
 
 class Calendar extends Component {
 
     getInformation(stringify, day) {
         var uvsByDay = [];
         for (let i = 0; i < stringify.length; i++) {
-            //console.log(i);
-            //console.log(stringify[i]);
             if (stringify[i].day.valueOf() == day.toString()) {
                 //console.log("get information : ", stringify[i].day);
                 uvsByDay.push(stringify[i]);
@@ -47,24 +59,26 @@ class Calendar extends Component {
         return uvsFormatees;
     }
 
+
     renderEvent(event, defaultAttributes, styles) {
+        defaultAttributes.style['backgroundColor'] = chooseColor(event);
         return (
             <div {...defaultAttributes}
                  title={event.name}
                  key={event.id}>
         <span className={styles.event_info}>
-          [ { event.name }] <br/>
+          [ {event.name}] <br/>
             {event.info}
         </span>
                 <span className={styles.event_info}>
-          { event.startTime.format('HH:mm') } - { event.endTime.format('HH:mm') }
+          {event.startTime.format('HH:mm')} - {event.endTime.format('HH:mm')}
         </span>
             </div>
         )
     }
 
-    render() {
 
+    render() {
         if (this.props.uvs.length) {
             let json = JSON.stringify(this.props.uvs);
 
@@ -105,41 +119,8 @@ class Calendar extends Component {
         return <Timetable events={this.state.events}/>
     }
 
-    // TODO : check variables
 }
 
 export default Calendar;
 
-
-// this.state = {
-//     events: {
-//         monday: [
-//             {
-//                 id: 1,
-//                 name: 'Custom Event 1',
-//                 type: 'custom',
-//                 startTime: moment('2018-02-23T11:30:00'),
-//                 endTime: moment('2018-02-23T13:30:00')
-//             }
-//         ],
-//         tuesday: [
-//             {
-//                 id: 2,
-//                 name: 'Custom Event 2',
-//                 type: 'custom',
-//                 startTime: moment('2018-02-22T12:30:00'),
-//                 endTime: moment('2018-02-22T14:30:00')
-//             },
-//             {
-//                 id: 3,
-//                 name: 'Custom Event 3',
-//                 type: 'custom',
-//                 startTime: moment('2018-02-22T16:30:00'),
-//                 endTime: moment('2018-02-22T18:45:00')
-//             }
-//         ],
-//         wednesday: [],
-//         thursday: [],
-//         friday: []
-//     }
-// };
+// TODO : check variables
