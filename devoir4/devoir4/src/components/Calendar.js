@@ -4,7 +4,6 @@ import Timetable from 'react-timetable-events'
 import moment from 'moment';
 import Test from "../App";
 
-
 const days = {
     "lundi": '2018-02-23T',
     "mardi": '2018-02-24T',
@@ -118,9 +117,7 @@ class Calendar extends Component {
 
         return <Timetable events={this.state.events}/>
     }
-
+// TODO : check variables
 }
 
 export default Calendar;
-
-// TODO : check variables
