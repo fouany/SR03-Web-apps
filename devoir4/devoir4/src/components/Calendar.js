@@ -1,9 +1,11 @@
 import React, {Component} from 'react'
-
 import Timetable from 'react-timetable-events'
 import moment from 'moment';
-import Test from "../App";
 
+/**
+ * On attribue une date choisie pour chaque jour de la semaine, afin de s'adapter au format de la librairie
+ * @type {{lundi: string, vendredi: string, mercredi: string, jeudi: string, mardi: string}}
+ */
 const days = {
     "lundi": '2018-02-23T',
     "mardi": '2018-02-24T',
@@ -12,16 +14,27 @@ const days = {
     "vendredi": '2018-02-27T'
 };
 
+// Contient les différentes couleurs des UVs
 var colorUv = {};
 
+/**
+ * Fonction qui choisie aléatoirement la couleur en code hexadécimal
+ * @returns {string}
+ */
 function randomColor(){
-    var x = Math.round(0xffffff * Math.random()).toString(16);
-    var y = (6 - x.length);
-    var z = "000000";
-    var z1 = z.substring(0, y);
+    let x = Math.round(0xffffff * Math.random()).toString(16);
+    let y = (6 - x.length);
+    let z = "000000";
+    let z1 = z.substring(0, y);
     return "#" +z1 + x;
 }
 
+/**
+ * Attribue une couleur (aléatoirement choisie) à tous les enseignements d'une UV.
+ * Chaque UV aura une couleur différente.
+ * @param event
+ * @returns {*}
+ */
 function chooseColor(event) {
     if (colorUv[event.name]) {
         return colorUv[event.name];
@@ -32,18 +45,28 @@ function chooseColor(event) {
 
 class Calendar extends Component {
 
+    /**
+     * Récupère les informations (non formattées) des UVS par jour
+     * @param stringify
+     * @param day
+     * @returns {Array}
+     */
     getInformation(stringify, day) {
-        var uvsByDay = [];
+        let uvsByDay = [];
         for (let i = 0; i < stringify.length; i++) {
             if (stringify[i].day.valueOf() == day.toString()) {
-                //console.log("get information : ", stringify[i].day);
                 uvsByDay.push(stringify[i]);
             }
         }
-        console.log("UVSBYDAY : ", uvsByDay);
         return uvsByDay;
     }
 
+    /**
+     * Formatte les UVS par jour au format de la librairie
+     * @param uvsByDay
+     * @param day
+     * @returns {Array}
+     */
     formatByDay(uvsByDay, day) {
         const uvsFormatees = [];
         for (let i = 0; i < uvsByDay.length; i++) {
@@ -58,8 +81,15 @@ class Calendar extends Component {
         return uvsFormatees;
     }
 
-
+    /**
+     * Permet d'ajouter les couleurs au calendrier
+     * @param event
+     * @param defaultAttributes
+     * @param styles
+     * @returns {*}
+     */
     renderEvent(event, defaultAttributes, styles) {
+        // Attribue les couleurs
         defaultAttributes.style['backgroundColor'] = chooseColor(event);
         return (
             <div {...defaultAttributes}
@@ -81,14 +111,16 @@ class Calendar extends Component {
         if (this.props.uvs.length) {
             let json = JSON.stringify(this.props.uvs);
 
-            const stringify = JSON.parse(json);
+            const stringify = JSON.parse(json); // On récupère le json des uvs
 
+            // On récupère les UVS par jour afin de faciliter/atomiser le formattage
             const coursLundi = this.getInformation(stringify, "LUNDI");
-            let coursMardi = this.getInformation(stringify, "MARDI");
-            let coursMercredi = this.getInformation(stringify, "MERCREDI");
-            let coursJeudi = this.getInformation(stringify, "JEUDI");
-            let coursVendredi = this.getInformation(stringify, "VENDREDI");
+            const coursMardi = this.getInformation(stringify, "MARDI");
+            const coursMercredi = this.getInformation(stringify, "MERCREDI");
+            const coursJeudi = this.getInformation(stringify, "JEUDI");
+            const coursVendredi = this.getInformation(stringify, "VENDREDI");
 
+            // On actualise le calendrier avec les données de l'API formattées pour la librairie du calendrier
             this.state = {
                 events: {
                     monday: this.formatByDay(coursLundi, days.lundi),
@@ -99,9 +131,11 @@ class Calendar extends Component {
                 }
             };
 
+            // Affichage du calendrier avec les évènements (UVS) mis à jour auparavant
             return <Timetable events={this.state.events} hoursInterval={[7, 21]} renderEvent={this.renderEvent}/>
         }
 
+        // Ce calendrier test sert seulement à ce que le state ne soit pas null
         this.state = {
             events: {
                 monday: [
@@ -117,7 +151,6 @@ class Calendar extends Component {
 
         return <Timetable events={this.state.events}/>
     }
-// TODO : check variables
 }
 
 export default Calendar;
